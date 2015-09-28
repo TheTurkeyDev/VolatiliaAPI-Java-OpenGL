@@ -1,4 +1,4 @@
-package main.java.VolatiliaOGL.graphics;
+package main.java.VolatiliaOGL.graphics.renderers;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
@@ -25,6 +25,7 @@ import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
+import main.java.VolatiliaOGL.graphics.Color;
 
 import org.lwjgl.opengl.Display;
 

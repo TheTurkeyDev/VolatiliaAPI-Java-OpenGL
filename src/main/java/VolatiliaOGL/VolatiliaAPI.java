@@ -2,31 +2,24 @@ package main.java.VolatiliaOGL;
 
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glOrtho;
 import main.java.VolatiliaOGL.graphics.FontManager;
 import main.java.VolatiliaOGL.screen.ScreenManager;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
 
 	public static VolatiliaAPI instance;
-	private int gFrames = 0;
-	private int gUpdates = 0;
-	
+	private int fps_cap = 120;
+
 	private int width, height;
 	private String name;
 
@@ -37,7 +30,7 @@ public class VolatiliaAPI
 		this.height = height;
 		this.width = width;
 	}
-	
+
 	public void load()
 	{
 		createScreen();
@@ -56,9 +49,9 @@ public class VolatiliaAPI
 	/**
 	 * Ends the Game
 	 */
-	public void end()
+	public void endGame()
 	{
-		cleanUp();
+		Display.destroy();
 	}
 
 	/**
@@ -66,14 +59,20 @@ public class VolatiliaAPI
 	 */
 	private void createScreen()
 	{
-		try {
-			Display.setDisplayMode(new DisplayMode(width,height));
+		try
+		{
+			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(name);
-			//Display.setResizable(true);
-			Display.create();
-		} catch (LWJGLException e) {
+			// Display.setResizable(true);
+			ContextAttribs attributes = new ContextAttribs(3, 2);
+			attributes.withForwardCompatible(true);
+			attributes.withProfileCore(true);
+			Display.create(new PixelFormat(), attributes);
+		} catch(LWJGLException e)
+		{
 			e.printStackTrace();
 		}
+		GL11.glViewport(0, 0, this.width, this.height);
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class VolatiliaAPI
 	private void apiInit()
 	{
 		new ScreenManager();
-		new FontManager();
+		//new FontManager();
 	}
 
 	/**
@@ -90,53 +89,18 @@ public class VolatiliaAPI
 	 */
 	private void startOpenGL()
 	{
-		glDisable(GL_DEPTH_TEST);
-		glClearColor(0,0,0,1);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, Display.getWidth(), Display.getHeight(), 0, -1, 1);
-		glMatrixMode(GL_MODELVIEW);
-		glEnable(GL_TEXTURE_2D);
-		
-		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Enable blending so the green background can be seen through the
-		// texture
 	}
 
 	private void mainGameLoop()
 	{
-		long lastTime = System.nanoTime();
-		long timer = System.currentTimeMillis();
-		final double ns = 1000000000.0 / 60.0;
-		double delta = 0;
-		int frames = 0;
-		int updates = 0;
 		while(!Display.isCloseRequested())
 		{
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
-			if(delta >= 1)
-			{
-				update();
-				pollInput();
-				updates++;
-				delta--;
-			}
-			render();
-			frames++;
-
-			if(System.currentTimeMillis() - timer > 1000)
-			{
-				gFrames = frames;
-				gUpdates = updates;
-				timer += 1000;
-				updates = 0;
-				frames = 0;
-			}
+			Display.sync(this.fps_cap);
+			this.render();
+			Display.update();
 		}
-		end();
+		this.endGame();
 	}
 
 	/**
@@ -144,9 +108,13 @@ public class VolatiliaAPI
 	 */
 	public void pollInput()
 	{
-		try{
+		try
+		{
 			ScreenManager.getInstance().getCurrentScreen().pollInput();
-		}catch(NullPointerException e){System.out.println("No Screen Set!");}
+		} catch(NullPointerException e)
+		{
+			System.out.println("No Screen Set!");
+		}
 	}
 
 	/**
@@ -154,9 +122,13 @@ public class VolatiliaAPI
 	 */
 	public void update()
 	{
-		try{
+		try
+		{
 			ScreenManager.getInstance().getCurrentScreen().update();
-		}catch(NullPointerException e){System.out.println("No Screen Set!");}
+		} catch(NullPointerException e)
+		{
+			System.out.println("No Screen Set!");
+		}
 	}
 
 	/**
@@ -166,35 +138,12 @@ public class VolatiliaAPI
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		try{
+		try
+		{
 			ScreenManager.getInstance().getCurrentScreen().render();
-		}catch(NullPointerException e){System.out.println("No Screen Set!");}
-		Display.update();
-	}
-
-	/**
-	 * Called before the game fully closes
-	 */
-	private void cleanUp()
-	{
-		Display.destroy();
-	}
-
-	/**
-	 * returns the current FPS of the game
-	 * @return FPS
-	 */
-	public int getFPS()
-	{
-		return gFrames;
-	}
-
-	/**
-	 * returns the current rate of updates per second
-	 * @return UPS
-	 */
-	public int getUPS()
-	{
-		return gUpdates;
+		} catch(NullPointerException e)
+		{
+			System.out.println("No Screen Set!");
+		}
 	}
 }

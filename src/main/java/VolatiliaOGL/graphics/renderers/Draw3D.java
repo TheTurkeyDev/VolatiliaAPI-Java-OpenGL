@@ -1,6 +1,11 @@
-package main.java.VolatiliaOGL.graphics;
+package main.java.VolatiliaOGL.graphics.renderers;
 
-import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+
+import main.java.VolatiliaOGL.graphics.models.ModelData;
+
 
 public class Draw3D
 {
@@ -16,58 +21,13 @@ public class Draw3D
 	 * @param rotate of rectangle
 	 * @param color of rectangle
 	 */
-	public static void drawRect(float x, float y, float z, float width, float height, float depth, float rotate, Color color)
+	public static void drawRect(ModelData data)
 	{
-		glEnable(GL_DEPTH_TEST);
-		glPushMatrix();
-		{
-			float[] rgb = color.getFloats(color);
-			glColor3f(rgb[0], rgb[1], rgb[2]);
-			glTranslatef(x,y,z);
-			glRotatef(rotate,1,1,0);
-			glBegin(GL_QUADS);
-			{
-				
-				//Face 1
-				glVertex3f(0,0,0);
-				glVertex3f(0,height,0);
-				glVertex3f(width,height,0);
-				glVertex3f(width,0,0);
-				
-				//Face 2
-				glVertex3f(0,0,0);
-				glVertex3f(0,0,depth);
-				glVertex3f(0,height,depth);
-				glVertex3f(0,height,0);
-				
-				//Face 3
-				glVertex3f(0,0,0);
-				glVertex3f(width,0,0);
-				glVertex3f(width,0,depth);
-				glVertex3f(0,0,depth);
-				
-				
-				//Face 4
-				glVertex3f(0,0,depth);
-				glVertex3f(0,height,depth);
-				glVertex3f(width,height,depth);
-				glVertex3f(width,0,depth);
-				
-				//Face 5
-				glVertex3f(width,0,0);
-				glVertex3f(width,0,depth);
-				glVertex3f(width,height,depth);
-				glVertex3f(width,height,0);
-				
-				
-				//Face 6
-				glVertex3f(0,height,0);
-				glVertex3f(width,height,0);
-				glVertex3f(width,height,depth);
-				glVertex3f(0,height,depth);
-			}
-			glEnd();
-		}
-		glPopMatrix();
+		GL30.glBindVertexArray(data.getId());
+		GL20.glEnableVertexAttribArray(0);
+		GL11.glDrawElements(GL11.GL_TRIANGLES, data.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+		GL20.glDisableVertexAttribArray(0);
+		GL30.glBindVertexArray(0);
+		
 	}
 }

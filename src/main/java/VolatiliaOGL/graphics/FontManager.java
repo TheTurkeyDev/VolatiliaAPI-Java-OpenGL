@@ -20,6 +20,8 @@ import java.nio.ByteBuffer;
 
 import javax.imageio.ImageIO;
 
+import main.java.VolatiliaOGL.graphics.renderers.Draw2D;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
 

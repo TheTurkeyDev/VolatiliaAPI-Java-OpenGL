@@ -1,7 +1,7 @@
 package main.java.VolatiliaOGL.gui;
 
-import main.java.VolatiliaOGL.graphics.Draw2D;
 import main.java.VolatiliaOGL.graphics.Texture;
+import main.java.VolatiliaOGL.graphics.renderers.Draw2D;
 import main.java.VolatiliaOGL.screen.Screen;
 import main.java.VolatiliaOGL.util.ImageLoader;
 
