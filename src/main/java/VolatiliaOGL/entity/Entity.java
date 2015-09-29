@@ -1,14 +1,14 @@
 package main.java.VolatiliaOGL.entity;
 
+import main.java.VolatiliaOGL.graphics.models.TexturedModel;
 import main.java.VolatiliaOGL.graphics.renderers.Draw3D;
 import main.java.VolatiliaOGL.graphics.textures.TextureManager;
-import main.java.VolatiliaOGL.graphics.models.ModelData;
 import main.java.VolatiliaOGL.map.Map;
 import main.java.VolatiliaOGL.util.Location3F;
 
 public class Entity
 {
-	protected ModelData model;
+	protected TexturedModel model;
 	protected Map map;
 
 	protected float x;
@@ -22,10 +22,12 @@ public class Entity
 	private float xVel = 0;
 	private float yVel = 0;
 	private float zVel = 0;
+	
+	protected float rotationX;
+	protected float rotationY;
+	protected float rotationZ;
 
 	private boolean isAlive = true;
-
-	private boolean moveThroughWalls = false;
 
 	/**
 	 * Creates a new Entity at the given location
@@ -48,11 +50,11 @@ public class Entity
 	 * starts the entity on a path of the given angles relative to each axis
 	 * 
 	 * @param X
-	 *            -Axis rotation
+	 *            -Axis speed
 	 * @param Y
-	 *            -Axis rotation
+	 *            -Axis speed
 	 * @param Z
-	 *            -Axis rotation
+	 *            -Axis speed
 	 */
 	public void launch(float rX, float rY, float rZ, float velocity)
 	{
@@ -69,11 +71,6 @@ public class Entity
 		x -= xVel;
 		y -= yVel;
 		z -= zVel;
-
-		if (!moveThroughWalls)
-		{
-
-		}
 	}
 
 	/**
