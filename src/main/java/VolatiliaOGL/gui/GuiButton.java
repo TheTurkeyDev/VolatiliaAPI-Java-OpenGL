@@ -1,30 +1,19 @@
 package main.java.VolatiliaOGL.gui;
 
-import main.java.VolatiliaOGL.graphics.FontManager;
 import main.java.VolatiliaOGL.screen.Screen;
 
 public class GuiButton extends GuiComponent
 {
 	public String displayText;
-
-	/**
-	 * Creates a Gui Button
-	 * 
-	 * @param screen
-	 * @param name
-	 *            Button name
-	 * @param text
-	 *            Button text
-	 */
-	public GuiButton(Screen s, String name, String text)
+	
+	public GuiButton(Screen s, String name, String text, int x, int y, int width, int height)
 	{
-		super(s, name);
+		super(s, name, x, y, width, height);
 		this.displayText = text;
 	}
 
 	public void render()
 	{
 		super.render();
-		FontManager.instance.RenderStringAt(this.displayText, x, y);
 	}
 }

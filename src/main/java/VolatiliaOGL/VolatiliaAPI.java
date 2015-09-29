@@ -4,7 +4,8 @@ import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import main.java.VolatiliaOGL.graphics.FontManager;
+import main.java.VolatiliaOGL.graphics.models.ModelLoader;
+import main.java.VolatiliaOGL.graphics.shaders.StaticShader;
 import main.java.VolatiliaOGL.screen.ScreenManager;
 
 import org.lwjgl.LWJGLException;
@@ -52,6 +53,8 @@ public class VolatiliaAPI
 	public void endGame()
 	{
 		Display.destroy();
+		StaticShader.INSTANCE.cleanUp();
+		ModelLoader.INSTANCE.RemoveAllStoredModels();
 	}
 
 	/**
@@ -137,7 +140,6 @@ public class VolatiliaAPI
 	public void render()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
 		try
 		{
 			ScreenManager.getInstance().getCurrentScreen().render();
@@ -145,5 +147,15 @@ public class VolatiliaAPI
 		{
 			System.out.println("No Screen Set!");
 		}
+	}
+	
+	public int getWidth()
+	{
+		return this.width;
+	}
+	
+	public int getHeight()
+	{
+		return this.height;
 	}
 }

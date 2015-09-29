@@ -1,7 +1,7 @@
 package main.java.VolatiliaOGL.entity;
 
-import main.java.VolatiliaOGL.graphics.TextureManager;
 import main.java.VolatiliaOGL.graphics.renderers.Draw3D;
+import main.java.VolatiliaOGL.graphics.textures.TextureManager;
 import main.java.VolatiliaOGL.graphics.models.ModelData;
 import main.java.VolatiliaOGL.map.Map;
 import main.java.VolatiliaOGL.util.Location3F;
@@ -81,7 +81,7 @@ public class Entity
 	 */
 	public void render()
 	{
-		Draw3D.drawRect(this.model);
+		Draw3D.draw3D(this.model);
 	}
 
 	/**

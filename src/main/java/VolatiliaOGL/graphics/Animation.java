@@ -1,5 +1,7 @@
 package main.java.VolatiliaOGL.graphics;
 
+import main.java.VolatiliaOGL.graphics.textures.Texture;
+
 public class Animation
 {
 	Texture[] images;

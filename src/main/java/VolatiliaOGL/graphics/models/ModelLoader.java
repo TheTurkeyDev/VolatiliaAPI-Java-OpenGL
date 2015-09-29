@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL30;
 
 public class ModelLoader
 {
-	public static ModelLoader loaded = new ModelLoader();
+	public static final ModelLoader INSTANCE = new ModelLoader();
 	
 	
 	private List<Integer> loadedModels = new ArrayList<Integer>();

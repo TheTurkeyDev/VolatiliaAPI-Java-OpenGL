@@ -10,18 +10,7 @@ import main.java.VolatiliaOGL.graphics.models.ModelData;
 public class Draw3D
 {
 	
-	/**
-	 * Draws a 3D rectangle
-	 * @param x location
-	 * @param y location
-	 * @param z location
-	 * @param width of rectangle
-	 * @param height of rectangle
-	 * @param depth of rectangle
-	 * @param rotate of rectangle
-	 * @param color of rectangle
-	 */
-	public static void drawRect(ModelData data)
+	public static void draw3D(ModelData data)
 	{
 		GL30.glBindVertexArray(data.getId());
 		GL20.glEnableVertexAttribArray(0);

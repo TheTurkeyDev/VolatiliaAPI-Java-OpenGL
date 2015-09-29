@@ -1,9 +1,13 @@
 package main.java.VolatiliaOGL.gui;
 
-import main.java.VolatiliaOGL.graphics.Texture;
+import main.java.VolatiliaOGL.VolatiliaAPI;
+import main.java.VolatiliaOGL.graphics.models.ModelData;
+import main.java.VolatiliaOGL.graphics.models.ModelLoader;
+import main.java.VolatiliaOGL.graphics.models.TexturedModel;
 import main.java.VolatiliaOGL.graphics.renderers.Draw2D;
+import main.java.VolatiliaOGL.graphics.textures.Texture;
+import main.java.VolatiliaOGL.graphics.textures.TextureManager;
 import main.java.VolatiliaOGL.screen.Screen;
-import main.java.VolatiliaOGL.util.ImageLoader;
 
 public class GuiComponent
 {
@@ -19,25 +23,33 @@ public class GuiComponent
 
 	public String texturePath = "/textures/gui/test.png";
 
-	public Texture texture;
+	private TexturedModel texturedModel;
+	private ModelData modelData;
 
-	public GuiComponent(Screen s, String name)
+	public GuiComponent(Screen s, String name, int x, int y, int width, int height)
 	{
 		this.screen = s;
-
 		this.name = name;
 
-		texture = ImageLoader.loadImage(GuiComponent.class, this.texturePath);
+		int sw = VolatiliaAPI.instance.getWidth();
+		int sh = VolatiliaAPI.instance.getHeight();
 
-		this.x = 0;
-		this.y = 0;
-		this.width = texture.getWidth();
-		this.height = texture.getHeight();
+		float[] vertacies = { (x - (sw / 2)) / sw, (y - (sh / 2)) / sh, 0, ((x + width) - (sw / 2)) / sw, (y - (sh / 2)) / sh, 0, (x - (sw / 2)) / sw, ((y + height) - (sh / 2)) / sh, 0, ((x + width) - (sw / 2)) / sw, ((y + height) - (sh / 2)) / sh, 0 };
+		int[] indices = { 0, 1, 3, 3, 1, 2 };
+
+		modelData = ModelLoader.INSTANCE.loadToModelData(vertacies, indices);
+		Texture texture = new Texture(TextureManager.INSTANCE.loadTexture(GuiComponent.class, texturePath));
+		texturedModel = new TexturedModel(modelData, texture);
+
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 
 	public void render()
 	{
-		Draw2D.drawTextured(x, y, width, height, 0, texture.getID(), 1);
+		Draw2D.draw2D(texturedModel);
 	}
 
 	public String getName()
