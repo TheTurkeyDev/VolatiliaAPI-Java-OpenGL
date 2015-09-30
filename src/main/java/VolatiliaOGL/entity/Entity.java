@@ -22,7 +22,7 @@ public class Entity
 	private float xVel = 0;
 	private float yVel = 0;
 	private float zVel = 0;
-	
+
 	protected float rotationX;
 	protected float rotationY;
 	protected float rotationZ;
@@ -36,14 +36,15 @@ public class Entity
 	{
 		this.map = map;
 	}
-	
+
 	/**
 	 * 
-	 * @param Texture Manager to load textures
+	 * @param Texture
+	 *            Manager to load textures
 	 */
 	public void loadTextures(TextureManager manager)
 	{
-		
+
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class Entity
 	 */
 	public void render()
 	{
-		Draw3D.draw3D(this.model);
+		Draw3D.draw3D(this);
 	}
 
 	/**
@@ -96,7 +97,7 @@ public class Entity
 	{
 		this.isAlive = false;
 	}
-	
+
 	/**
 	 * 
 	 * @param loc
@@ -142,5 +143,25 @@ public class Entity
 	public float getDepth()
 	{
 		return this.depth;
+	}
+
+	public float getrotationX()
+	{
+		return this.rotationX;
+	}
+
+	public float getrotationY()
+	{
+		return this.rotationY;
+	}
+
+	public float getrotationZ()
+	{
+		return this.rotationZ;
+	}
+
+	public TexturedModel getTexturedModel()
+	{
+		return this.model;
 	}
 }

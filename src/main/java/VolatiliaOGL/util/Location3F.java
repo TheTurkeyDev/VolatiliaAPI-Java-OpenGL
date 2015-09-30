@@ -1,5 +1,7 @@
 package main.java.VolatiliaOGL.util;
 
+import org.lwjgl.util.vector.Vector3f;
+
 public class Location3F
 {
 	protected float x;
@@ -61,5 +63,10 @@ public class Location3F
 	public Location2F to2DLocation()
 	{
 		return new Location2F(x, z);
+	}
+
+	public Vector3f toVector3f()
+	{
+		return new Vector3f(x, y, z);
 	}
 }

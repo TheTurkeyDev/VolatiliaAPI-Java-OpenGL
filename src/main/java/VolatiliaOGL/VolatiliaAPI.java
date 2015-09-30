@@ -3,8 +3,8 @@ package main.java.VolatiliaOGL;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import main.java.VolatiliaOGL.graphics.models.ModelLoader;
+import main.java.VolatiliaOGL.graphics.renderers.RenderManager;
 import main.java.VolatiliaOGL.graphics.shaders.StaticShader;
 import main.java.VolatiliaOGL.screen.ScreenManager;
 
@@ -67,9 +67,7 @@ public class VolatiliaAPI
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(name);
 			// Display.setResizable(true);
-			ContextAttribs attributes = new ContextAttribs(3, 2);
-			attributes.withForwardCompatible(true);
-			attributes.withProfileCore(true);
+			ContextAttribs attributes = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
 			Display.create(new PixelFormat(), attributes);
 		} catch(LWJGLException e)
 		{
@@ -92,7 +90,7 @@ public class VolatiliaAPI
 	 */
 	private void startOpenGL()
 	{
-
+		RenderManager.updateProjectionMatrix();
 	}
 
 	private void mainGameLoop()
