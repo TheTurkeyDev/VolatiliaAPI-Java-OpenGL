@@ -1,109 +1,80 @@
 package main.java.VolatiliaOGL.player;
 
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glRotatef;
-import static org.lwjgl.opengl.GL11.glTranslatef;
-import static org.lwjgl.util.glu.GLU.gluPerspective;
+import main.java.VolatiliaOGL.util.Location3F;
 
 public class DisplayView
 {
 	private float x;
 	private float y;
 	private float z;
-	private float rx;
-	private float ry;
-	private float rz;
 
-	private float fov;
-	private float aspect;
-	private float near;
-	private float far;
-	
-	private String name;
-	
-	private boolean moveThroughWalls = false;
+	private float pitch;
+	private float yaw;
+	private float roll;
 
 	/**
 	 * Creates a view that can be displayed on the screen
-	 * @param feild of view
+	 * 
+	 * @param feild
+	 *            of view
 	 * @param aspect
-	 * @param distance to start rendering panes
+	 * @param distance
+	 *            to start rendering panes
 	 * @param far
-	 * @param nname of view
+	 * @param nname
+	 *            of view
 	 */
-	public DisplayView(float fov, float aspect, float near, float far, String n)
+	public DisplayView()
 	{
 		x = 0;
 		y = 0;
 		z = 0;
-		rx = 0;
-		ry = 0;
-		rz = 0;
-
-		this.fov = fov;
-		this.aspect = aspect;
-		this.near = near;
-		this.far = far;
-		
-		name = n;
-		initProjection();
-	}
-
-	/**
-	 * Initiates the view
-	 */
-	private void initProjection()
-	{
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		gluPerspective(fov,aspect,near,far);
-		glMatrixMode(GL_MODELVIEW);
-	}
-
-	/**
-	 * Displays the view on the players Screen
-	 */
-	public void useView()
-	{
-		glRotatef(rx,1,0,0);
-		glRotatef(ry,0,1,0);
-		glRotatef(rz,0,0,1);
-		glTranslatef(x,y,z);
 	}
 
 	/**
 	 * Gets the current x Cord of the View
+	 * 
 	 * @return X
 	 */
 	public float getX()
 	{
-		return x*-1;
+		return x * -1;
 	}
 
 	/**
 	 * gets the current y cord of the view
+	 * 
 	 * @return Y
 	 */
 	public float getY()
 	{
-		return y*-1;
+		return y * -1;
 	}
 
 	/**
 	 * gets the current z cord of the view
+	 * 
 	 * @return Z
 	 */
 	public float getZ()
 	{
-		return z*-1;
+		return z * -1;
+	}
+
+	/**
+	 * 
+	 * @return the location of the camera
+	 */
+	public Location3F getLocation()
+	{
+		return new Location3F(x, y, z);
 	}
 
 	/**
 	 * Sets the x cord
-	 * @param X coordinate
+	 * 
+	 * @param X
+	 *            coordinate
 	 */
 	public void setX(float x)
 	{
@@ -112,7 +83,9 @@ public class DisplayView
 
 	/**
 	 * Sets the y cord
-	 * @param Y coordinate
+	 * 
+	 * @param Y
+	 *            coordinate
 	 */
 	public void setY(float y)
 	{
@@ -121,7 +94,9 @@ public class DisplayView
 
 	/**
 	 * Sets the z cord
-	 * @param Z coordinate
+	 * 
+	 * @param Z
+	 *            coordinate
 	 */
 	public void setZ(float z)
 	{
@@ -129,111 +104,98 @@ public class DisplayView
 	}
 
 	/**
-	 * gets the X axis rotation
-	 * @return X axis rotation
+	 * gets the X axis rotation (Pitch)
+	 * 
+	 * @return X axis rotation (Pitch)
 	 */
-	public float getRX()
+	public float getPitch()
 	{
-		return rx;
+		return pitch;
 	}
 
 	/**
-	 * gets the Y axis rotation
-	 * @return Y axis rotation
+	 * gets the Y axis rotation (Yaw)
+	 * 
+	 * @return Y axis rotation (Yaw)
 	 */
-	public float getRY()
+	public float getYaw()
 	{
-		return ry;
+		return yaw;
 	}
 
 	/**
-	 * gets the Y axis rotation
-	 * @return Y axis rotation
+	 * gets the Y axis rotation (Roll)
+	 * 
+	 * @return Y axis rotation (Roll)
 	 */
-	public float getRZ()
+	public float getRoll()
 	{
-		return rz;
+		return roll;
 	}
 
 	/**
-	 * sets the X axis rotation
-	 * @param X axis rotation
+	 * sets the X axis rotation (Pitch)
+	 * 
+	 * @param X
+	 *            axis rotation (Pitch)
 	 */
-	public void setRX(float rx)
+	public void setPitch(float pitch)
 	{
-		this.rx = rx;
+		this.pitch = pitch;
 	}
 
 	/**
-	 * sets the Y axis rotation
-	 * @param Y axis rotation
+	 * sets the Y axis rotation (Yaw)
+	 * 
+	 * @param Y
+	 *            axis rotation (Yaw)
 	 */
-	public void setRY(float ry)
+	public void setRY(float yaw)
 	{
-		this.ry = ry;
+		this.yaw = yaw;
 	}
 
 	/**
-	 * sets the Z axis rotation
-	 * @param Z axis rotation
+	 * sets the Z axis rotation (Roll)
+	 * 
+	 * @param Z
+	 *            axis rotation (Roll)
 	 */
-	public void setRZ(float rz)
+	public void setRZ(float roll)
 	{
-		this.rz = rz;
+		this.roll = roll;
 	}
-	
+
 	/**
 	 * Rotates the view a given amount on the X axis
-	 * @param ammount to rotate
+	 * 
+	 * @param ammount
+	 *            to rotate
 	 */
-	public void rotateX(float r)
+	public void rotatePitch(float r)
 	{
-		rx+=r;
+		pitch += r;
 	}
-	
+
 	/**
 	 * Rotates the view a given amount on the Y axis
-	 * @param ammount to rotate
+	 * 
+	 * @param ammount
+	 *            to rotate
 	 */
-	public void rotateY(float r)
+	public void rotateYaw(float r)
 	{
-		ry+=r;
+		yaw += r;
 	}
-	
-	
+
 	/**
 	 * Moves the view vertically
-	 * @param ammount to move
+	 * 
+	 * @param ammount
+	 *            to move
 	 */
 	public void moveUp(float m)
 	{
-		y+=m;
-	}
-
-	/**
-	 * returns if the view can move through objects
-	 * @return can move through walls
-	 */
-	public boolean canMoveThroughWalls()
-	{
-		return moveThroughWalls;
-	}
-	
-	/**
-	 * sets whether or not the view can move through objects
-	 * @param can move through walls
-	 */
-	public void setMoveThroughWalls(boolean toggle)
-	{
-		moveThroughWalls = toggle;	
-	}
-	
-	/**
-	 * gets the name of the view
-	 * @return
-	 */
-	public String getName()
-	{
-		return name;
+		y += m;
 	}
 }

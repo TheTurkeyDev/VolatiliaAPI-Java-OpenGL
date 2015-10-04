@@ -19,11 +19,12 @@ public class ModelLoader
 	private List<Integer> loadedModels = new ArrayList<Integer>();
 	private List<Integer> loadedAttributes = new ArrayList<Integer>();
 
-	public ModelData loadToModelData(float[] positions, int[] indices)
+	public ModelData loadToModelData(float[] positions, float[] textureCords, int[] indices)
 	{
 		int id = createVAO();
 		this.bindIndeciesBuffer(indices);
-		storeDatainAttribList(0, positions);
+		storeDatainAttribList(0, 3, positions);
+		storeDatainAttribList(1, 2, textureCords);
 		unbindID();
 		return new ModelData(id, indices.length);
 	}
@@ -44,14 +45,14 @@ public class ModelLoader
 		return id;
 	}
 
-	private void storeDatainAttribList(int attributeNumber, float[] data)
+	private void storeDatainAttribList(int attributeNumber, int cordSize, float[] data)
 	{
 		int id = GL15.glGenBuffers();
 		this.loadedAttributes.add(id);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id);
 		FloatBuffer buffer = storeDataInFloatBuffer(data);
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
-		GL20.glVertexAttribPointer(attributeNumber, 3, GL11.GL_FLOAT, false, 0, 0);
+		GL20.glVertexAttribPointer(attributeNumber, cordSize, GL11.GL_FLOAT, false, 0, 0);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 	

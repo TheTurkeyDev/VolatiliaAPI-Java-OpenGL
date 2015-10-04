@@ -24,7 +24,6 @@ public class BasePlayer extends Entity
 	 */
 	public void render()
 	{
-		camera.useView();
 	}
 
 	/**

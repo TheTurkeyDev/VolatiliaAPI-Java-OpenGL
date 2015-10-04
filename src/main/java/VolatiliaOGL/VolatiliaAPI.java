@@ -91,6 +91,7 @@ public class VolatiliaAPI
 	private void startOpenGL()
 	{
 		RenderManager.updateProjectionMatrix();
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
 	private void mainGameLoop()

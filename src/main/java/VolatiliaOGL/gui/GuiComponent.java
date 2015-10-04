@@ -36,8 +36,9 @@ public class GuiComponent
 
 		float[] vertacies = { (x - (sw / 2)) / sw, (y - (sh / 2)) / sh, 0, ((x + width) - (sw / 2)) / sw, (y - (sh / 2)) / sh, 0, (x - (sw / 2)) / sw, ((y + height) - (sh / 2)) / sh, 0, ((x + width) - (sw / 2)) / sw, ((y + height) - (sh / 2)) / sh, 0 };
 		int[] indices = { 0, 1, 3, 3, 1, 2 };
+		float[] textureCoords = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
-		modelData = ModelLoader.INSTANCE.loadToModelData(vertacies, indices);
+		modelData = ModelLoader.INSTANCE.loadToModelData(vertacies, textureCoords, indices);
 		Texture texture = new Texture(TextureManager.INSTANCE.loadTexture(GuiComponent.class, texturePath));
 		texturedModel = new TexturedModel(modelData, texture);
 
