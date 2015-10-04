@@ -14,17 +14,17 @@ import org.lwjgl.opengl.GL30;
 public class ModelLoader
 {
 	public static final ModelLoader INSTANCE = new ModelLoader();
-	
-	
+
 	private List<Integer> loadedModels = new ArrayList<Integer>();
 	private List<Integer> loadedAttributes = new ArrayList<Integer>();
 
-	public ModelData loadToModelData(float[] positions, float[] textureCords, int[] indices)
+	public ModelData loadToModelData(float[] positions, float[] textureCords, float[] normals, int[] indices)
 	{
 		int id = createVAO();
 		this.bindIndeciesBuffer(indices);
 		storeDatainAttribList(0, 3, positions);
 		storeDatainAttribList(1, 2, textureCords);
+		storeDatainAttribList(2, 3, normals);
 		unbindID();
 		return new ModelData(id, indices.length);
 	}
@@ -55,12 +55,12 @@ public class ModelLoader
 		GL20.glVertexAttribPointer(attributeNumber, cordSize, GL11.GL_FLOAT, false, 0, 0);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
-	
+
 	private void unbindID()
 	{
 		GL30.glBindVertexArray(0);
 	}
-	
+
 	private void bindIndeciesBuffer(int[] indices)
 	{
 		int id = GL15.glGenBuffers();
@@ -69,7 +69,7 @@ public class ModelLoader
 		IntBuffer buffer = this.storeDataInIntBuffer(indices);
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 	}
-	
+
 	private IntBuffer storeDataInIntBuffer(int[] data)
 	{
 		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
@@ -77,7 +77,7 @@ public class ModelLoader
 		buffer.flip();
 		return buffer;
 	}
-	
+
 	private FloatBuffer storeDataInFloatBuffer(float[] data)
 	{
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);

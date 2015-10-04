@@ -1,5 +1,7 @@
 package main.java.VolatiliaOGL.graphics.renderers;
 
+import main.java.VolatiliaOGL.graphics.shaders.StaticShader;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 
@@ -10,11 +12,19 @@ public class RenderManager
 	private static float farPlane = 1000;
 
 	private static Matrix4f projectionMatrix;
+	
+	public static void initRendering()
+	{
+		createProjectionMatrix();
+		StaticShader.INSTANCE.start();
+		StaticShader.INSTANCE.loadProjectionMatrix(projectionMatrix);
+		StaticShader.INSTANCE.stop();
+	}
 
-	public static void updateProjectionMatrix()
+	public static void createProjectionMatrix()
 	{
 		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-		float yScale = (float) ((1f / Math.tan(Math.toRadians(fov / 2))) * aspectRatio);
+		float yScale = (float) ((1f / Math.tan(Math.toRadians(fov / 2f))) * aspectRatio);
 		float xScale = yScale / aspectRatio;
 		float frustumLength = farPlane - nearPlane;
 		

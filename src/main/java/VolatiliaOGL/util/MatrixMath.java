@@ -27,7 +27,7 @@ public class MatrixMath
 		Matrix4f.rotate((float) Math.toRadians(view.getPitch()), new Vector3f(1, 0, 0), viewMatrix, viewMatrix);
 		Matrix4f.rotate((float) Math.toRadians(view.getYaw()), new Vector3f(0, 1, 0), viewMatrix, viewMatrix);
 		Matrix4f.rotate((float) Math.toRadians(view.getRoll()), new Vector3f(0, 0, 1), viewMatrix, viewMatrix);
-		Vector3f negativePos = new Vector3f(-view.getX(), -view.getY(), -view.getZ());
+		Vector3f negativePos = new Vector3f(-view.getPosition().x, -view.getPosition().y, -view.getPosition().z);
 		Matrix4f.translate(negativePos, viewMatrix, viewMatrix);
 		return viewMatrix;
 	}

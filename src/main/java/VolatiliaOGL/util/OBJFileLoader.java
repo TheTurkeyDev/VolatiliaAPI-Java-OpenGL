@@ -10,12 +10,11 @@ import main.java.VolatiliaOGL.graphics.models.ModelLoader;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.newdawn.slick.svg.Loader;
 
 public class OBJFileLoader
 {
 
-	public static ModelData loadOBJFile(Class<?> clazz, String file, Loader loader)
+	public static ModelData loadOBJFile(Class<?> clazz, String file)
 	{
 		InputStreamReader reader = null;
 		try
@@ -37,7 +36,7 @@ public class OBJFileLoader
 		float[] normalsArray = null;
 		float[] texturesArray = null;
 		int[] indicesArray = null;
-
+		
 		String line;
 		try
 		{
@@ -71,7 +70,7 @@ public class OBJFileLoader
 
 			while(line != null)
 			{
-				if(line.startsWith("f "))
+				if(!line.startsWith("f "))
 				{
 					line = br.readLine();
 					continue;
@@ -107,7 +106,7 @@ public class OBJFileLoader
 		for(int i = 0; i < indices.size(); i++)
 			indicesArray[i] = indices.get(i);
 		
-		return ModelLoader.INSTANCE.loadToModelData(verticesArray, texturesArray, indicesArray);
+		return ModelLoader.INSTANCE.loadToModelData(verticesArray, texturesArray, normalsArray, indicesArray);
 	}
 
 	private static void processVertex(String[] vertextData, List<Integer> indices, List<Vector2f> textures, List<Vector3f> normals, float[] textureArray, float[] normalsArray)

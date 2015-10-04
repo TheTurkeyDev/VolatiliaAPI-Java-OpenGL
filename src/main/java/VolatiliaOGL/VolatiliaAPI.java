@@ -52,9 +52,9 @@ public class VolatiliaAPI
 	 */
 	public void endGame()
 	{
-		Display.destroy();
 		StaticShader.INSTANCE.cleanUp();
 		ModelLoader.INSTANCE.RemoveAllStoredModels();
+		Display.destroy();
 	}
 
 	/**
@@ -64,10 +64,10 @@ public class VolatiliaAPI
 	{
 		try
 		{
+			ContextAttribs attributes = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(name);
 			// Display.setResizable(true);
-			ContextAttribs attributes = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
 			Display.create(new PixelFormat(), attributes);
 		} catch(LWJGLException e)
 		{
@@ -82,7 +82,7 @@ public class VolatiliaAPI
 	private void apiInit()
 	{
 		new ScreenManager();
-		//new FontManager();
+		// new FontManager();
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class VolatiliaAPI
 	 */
 	private void startOpenGL()
 	{
-		RenderManager.updateProjectionMatrix();
+		RenderManager.initRendering();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
@@ -98,9 +98,9 @@ public class VolatiliaAPI
 	{
 		while(!Display.isCloseRequested())
 		{
-			Display.sync(this.fps_cap);
 			this.render();
 			Display.update();
+			Display.sync(this.fps_cap);
 		}
 		this.endGame();
 	}
@@ -110,13 +110,12 @@ public class VolatiliaAPI
 	 */
 	public void pollInput()
 	{
-		try
-		{
-			ScreenManager.getInstance().getCurrentScreen().pollInput();
-		} catch(NullPointerException e)
+		if(ScreenManager.getInstance().getCurrentScreen() == null)
 		{
 			System.out.println("No Screen Set!");
+			return;
 		}
+		ScreenManager.getInstance().getCurrentScreen().pollInput();
 	}
 
 	/**
@@ -124,13 +123,12 @@ public class VolatiliaAPI
 	 */
 	public void update()
 	{
-		try
-		{
-			ScreenManager.getInstance().getCurrentScreen().update();
-		} catch(NullPointerException e)
+		if(ScreenManager.getInstance().getCurrentScreen() == null)
 		{
 			System.out.println("No Screen Set!");
+			return;
 		}
+		ScreenManager.getInstance().getCurrentScreen().update();
 	}
 
 	/**
@@ -139,20 +137,20 @@ public class VolatiliaAPI
 	public void render()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		try
-		{
-			ScreenManager.getInstance().getCurrentScreen().render();
-		} catch(NullPointerException e)
+		GL11.glClearColor(0, 0, 0, 1);
+		if(ScreenManager.getInstance().getCurrentScreen() == null)
 		{
 			System.out.println("No Screen Set!");
+			return;
 		}
+		ScreenManager.getInstance().getCurrentScreen().render();
 	}
-	
+
 	public int getWidth()
 	{
 		return this.width;
 	}
-	
+
 	public int getHeight()
 	{
 		return this.height;

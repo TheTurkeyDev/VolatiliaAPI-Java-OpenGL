@@ -3,8 +3,9 @@ package main.java.VolatiliaOGL.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import main.java.VolatiliaOGL.entity.Entity;
-import main.java.VolatiliaOGL.util.Location3F;
 
 public class Map
 {
@@ -131,7 +132,7 @@ public class Map
 		return this.entities;
 	}
 
-	public boolean canMoveTo(Location3F loc, float size)
+	public boolean canMoveTo(Vector3f loc, float size)
 	{
 		if(this.getTileAt((int) (loc.getX() / Map.tileSize), (int) (loc.getY() / Map.tileSize), 0).isSolid())
 		{

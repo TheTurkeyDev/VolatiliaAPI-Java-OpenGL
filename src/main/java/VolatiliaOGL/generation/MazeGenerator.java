@@ -3,7 +3,7 @@ package main.java.VolatiliaOGL.generation;
 import java.util.ArrayList;
 import java.util.Random;
 
-import main.java.VolatiliaOGL.util.Location2F;
+import org.lwjgl.util.vector.Vector2f;
 
 public class MazeGenerator
 {
@@ -11,7 +11,7 @@ public class MazeGenerator
 	private int width; private int height;
 	private int xWallScale, yWallScale;
 	private int[][] map;
-	private ArrayList<Location2F> walls = new ArrayList<Location2F>();
+	private ArrayList<Vector2f> walls = new ArrayList<Vector2f>();
 	private Random r = new Random();
 
 	private int currentX = 1;
@@ -48,11 +48,11 @@ public class MazeGenerator
 		map[1][1] = nonWall;
 		currentX = 1;
 		currentY = 1;
-		Location2F current = new Location2F(currentX, currentY);
-		Location2F north = current.add(0, -1);
-		Location2F east = current.add(1, 0);
-		Location2F south = current.add(0, 1);
-		Location2F west = current.add(-1, 0);
+		Vector2f current = new Vector2f(currentX, currentY);
+		Vector2f north = current.translate(0, -1);
+		Vector2f east = current.translate(1, 0);
+		Vector2f south = current.translate(0, 1);
+		Vector2f west = current.translate(-1, 0);
 
 		if ((north.getY() > 0) && (map[(int) north.getX()][(int) north.getY()] == wall))
 		{
@@ -86,13 +86,13 @@ public class MazeGenerator
 		while (walls.size() > 0)
 		{
 			int randomLoc = r.nextInt(walls.size());
-			currentX = (int) ((Location2F)walls.get(randomLoc)).getX();
-			currentY = (int) ((Location2F)walls.get(randomLoc)).getY();
-			current = new Location2F(currentX, currentY);
-			north = current.add(0, -1);
-			east = current.add(1, 0);
-			south = current.add(0, 1);
-			west = current.add(-1, 0);
+			currentX = (int) (walls.get(randomLoc)).getX();
+			currentY = (int) (walls.get(randomLoc)).getY();
+			current = new Vector2f(currentX, currentY);
+			north = current.translate(0, -1);
+			east = current.translate(1, 0);
+			south = current.translate(0, 1);
+			west = current.translate(-1, 0);
 
 			if (!checkwalls(current))
 			{
@@ -152,7 +152,7 @@ public class MazeGenerator
 			{
 				for (int x = 1; x < xSize - 1; x++)
 				{
-					if(isWall(x, y) && numWallsAround(new Location2F(x,y)) == 2)
+					if(isWall(x, y) && numWallsAround(new Vector2f(x,y)) == 2)
 					{
 						map[x][y] = nonWall;
 					}
@@ -164,12 +164,12 @@ public class MazeGenerator
 		generated = true;
 	}
 
-	private boolean checkwalls(Location2F loc)
+	private boolean checkwalls(Vector2f loc)
 	{
-		Location2F north = loc.add(0, -1);
-		Location2F east = loc.add(1, 0);
-		Location2F south = loc.add(0, 1);
-		Location2F west = loc.add(-1, 0);
+		Vector2f north = loc.translate(0, -1);
+		Vector2f east = loc.translate(1, 0);
+		Vector2f south = loc.translate(0, 1);
+		Vector2f west = loc.translate(-1, 0);
 
 		int yes = 0;
 		if ((north.getY() >= 0 && map[(int) north.getX()][(int) north.getY()] == nonWall) || north.getY() > ySize)
@@ -183,12 +183,12 @@ public class MazeGenerator
 		return yes > 1;
 	}
 
-	private int numWallsAround(Location2F loc)
+	private int numWallsAround(Vector2f loc)
 	{
-		Location2F north = loc.add(0, -1);
-		Location2F east = loc.add(1, 0);
-		Location2F south = loc.add(0, 1);
-		Location2F west = loc.add(-1, 0);
+		Vector2f north = loc.translate(0, -1);
+		Vector2f east = loc.translate(1, 0);
+		Vector2f south = loc.translate(0, 1);
+		Vector2f west = loc.translate(-1, 0);
 
 		int yes = 0;
 		if (north.getY() >= 0 && map[(int) north.getX()][(int) north.getY()] == nonWall)
@@ -263,7 +263,7 @@ public class MazeGenerator
 	 * gets a random location that doesnt have a wall
 	 * @return open location
 	 */
-	public Location2F getFreeLoc()
+	public Vector2f getFreeLoc()
 	{
 		int x = r.nextInt(xSize);
 		int y = r.nextInt(ySize);
@@ -280,7 +280,7 @@ public class MazeGenerator
 				y = r.nextInt(ySize);
 			}
 		}
-		return new Location2F(x, y);
+		return new Vector2f(x, y);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package main.java.VolatiliaOGL.graphics.shaders;
 
+import main.java.VolatiliaOGL.entity.LightEntity;
 import main.java.VolatiliaOGL.player.DisplayView;
 import main.java.VolatiliaOGL.util.MatrixMath;
 
@@ -14,6 +15,8 @@ public class StaticShader extends BaseShader
 	private int location_transformationMatrix;
 	private int location_projectionMatrix;
 	private int location_viewMatrix;
+	private int location_lightPosition;
+	private int location_lightColor;
 
 	public StaticShader()
 	{
@@ -25,6 +28,7 @@ public class StaticShader extends BaseShader
 	{
 		super.bindAttribute(0, "position");
 		super.bindAttribute(1, "textureCoordinates");
+		super.bindAttribute(2, "normal");
 	}
 
 	@Override
@@ -33,6 +37,8 @@ public class StaticShader extends BaseShader
 		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
 		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
 		location_viewMatrix = super.getUniformLocation("viewMatrix");
+		location_lightPosition = super.getUniformLocation("lightPosition");
+		location_lightColor = super.getUniformLocation("lightColor");
 	}
 	
 	public void loadTransformationMatrix(Matrix4f matrix)
@@ -49,6 +55,12 @@ public class StaticShader extends BaseShader
 	{
 		Matrix4f viewMatrix = MatrixMath.createViewMatrix(view);
 		super.loadMatrix(this.location_viewMatrix, viewMatrix);
+	}
+	
+	public void loadLight(LightEntity light)
+	{
+		super.loadVector(this.location_lightPosition, light.getPosition());
+		super.loadVector(this.location_lightColor, light.getColor());
 	}
 
 }

@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import main.java.VolatiliaOGL.generation.MazeGenerator;
-import main.java.VolatiliaOGL.util.Location3F.Direction;
+
+import org.lwjgl.util.vector.Vector2f;
 
 public class MazeSolver
 {
 	private MazeGenerator mazeGenerator;
 	private int x = 1,y = 1;
 
-	private ArrayList<Location2F> nogo = new ArrayList<Location2F>();
-	private ArrayList<Location2F> visited = new ArrayList<Location2F>();
+	private ArrayList<Vector2f> nogo = new ArrayList<Vector2f>();
+	private ArrayList<Vector2f> visited = new ArrayList<Vector2f>();
 
 	private Direction last = null;
 
@@ -21,7 +22,7 @@ public class MazeSolver
 		mazeGenerator = m;
 	}
 
-	public boolean solve(Location2F start, Location2F end)
+	public boolean solve(Vector2f start, Vector2f end)
 	{
 		nogo.clear();
 		visited.clear();
@@ -29,7 +30,7 @@ public class MazeSolver
 		y = (int) start.getY();
 		int endX = (int) end.getX();
 		int endY = (int) end.getY();
-		visited.add(new Location2F(x, y));
+		visited.add(new Vector2f(x, y));
 		long startTime = System.currentTimeMillis();
 		while(startTime + 10000 > System.currentTimeMillis())
 		{
@@ -44,10 +45,10 @@ public class MazeSolver
 	{
 		ArrayList<Direction> primary = new ArrayList<Direction>();
 		ArrayList<Direction> secondary = new ArrayList<Direction>();
-		Location2F above = new Location2F(x, y - 1);
-		Location2F right = new Location2F(x + 1, y);
-		Location2F down = new Location2F(x, y + 1);
-		Location2F left = new Location2F(x - 1, y);
+		Vector2f above = new Vector2f(x, y - 1);
+		Vector2f right = new Vector2f(x + 1, y);
+		Vector2f down = new Vector2f(x, y + 1);
+		Vector2f left = new Vector2f(x - 1, y);
 		if(!mazeGenerator.isWall((int) above.getX(), (int) above.getY()))
 		{
 			if(!isNoGo(above))
@@ -96,7 +97,7 @@ public class MazeSolver
 		}
 		if(primary.size() == 1 && secondary.size() == 0)
 		{
-			nogo.add(new Location2F(x,y));
+			nogo.add(new Vector2f(x,y));
 			return primary.get(0);
 		}
 		if(primary.size() == 2 && primary.contains(last))
@@ -120,46 +121,46 @@ public class MazeSolver
 		{
 			y--;
 			last = Direction.North;
-			visited.add(new Location2F(x , y));
+			visited.add(new Vector2f(x , y));
 		}
 		else if(dir.equals(Direction.East))
 		{
 			x++;
 			last = Direction.East;
-			visited.add(new Location2F(x , y));
+			visited.add(new Vector2f(x , y));
 		}
 		else if(dir.equals(Direction.South))
 		{
 			y++;
 			last = Direction.South;
-			visited.add(new Location2F(x , y));
+			visited.add(new Vector2f(x , y));
 		}
 		else if(dir.equals(Direction.West))
 		{
 			x--;
 			last = Direction.West;
-			visited.add(new Location2F(x , y));
+			visited.add(new Vector2f(x , y));
 		}
 	}
 
 	public boolean hasVisited(int xloc, int yloc)
 	{
-		for(Location2F loc: visited)
-			if(loc.equals(new Location2F(xloc, yloc)))
+		for(Vector2f loc: visited)
+			if(loc.equals(new Vector2f(xloc, yloc)))
 				return true;
 		return false;
 	}
-	public boolean hasVisited(Location2F loc)
+	public boolean hasVisited(Vector2f loc)
 	{
-		for(Location2F loc2: visited)
-			if(loc2.equals(new Location2F(loc.getX(), loc.getY())))
+		for(Vector2f loc2: visited)
+			if(loc2.equals(new Vector2f(loc.getX(), loc.getY())))
 				return true;
 		return false;
 	}
-	public boolean isNoGo(Location2F loc)
+	public boolean isNoGo(Vector2f loc)
 	{
-		for(Location2F loc2: nogo)
-			if(loc2.equals(new Location2F(loc.getX(), loc.getY())))
+		for(Vector2f loc2: nogo)
+			if(loc2.equals(new Vector2f(loc.getX(), loc.getY())))
 				return true;
 		return false;
 	}

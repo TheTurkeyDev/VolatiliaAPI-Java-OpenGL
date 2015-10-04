@@ -4,28 +4,25 @@ import main.java.VolatiliaOGL.graphics.models.TexturedModel;
 import main.java.VolatiliaOGL.graphics.renderers.Draw3D;
 import main.java.VolatiliaOGL.graphics.textures.TextureManager;
 import main.java.VolatiliaOGL.map.Map;
-import main.java.VolatiliaOGL.util.Location3F;
+
+import org.lwjgl.util.vector.Vector3f;
 
 public class Entity
 {
 	protected TexturedModel model;
 	protected Map map;
 
-	protected float x;
-	protected float y;
-	protected float z;
+	protected Vector3f position = new Vector3f(0, 0, 0);
 
 	private float width;
 	private float height;
 	private float depth;
 
-	private float xVel = 0;
-	private float yVel = 0;
-	private float zVel = 0;
+	private Vector3f velocity = new Vector3f(0, 0, 0);
 
-	protected float rotationX;
-	protected float rotationY;
-	protected float rotationZ;
+	protected float pitch;
+	protected float yaw;
+	protected float roll;
 
 	private boolean isAlive = true;
 
@@ -48,30 +45,13 @@ public class Entity
 	}
 
 	/**
-	 * starts the entity on a path of the given angles relative to each axis
-	 * 
-	 * @param X
-	 *            -Axis speed
-	 * @param Y
-	 *            -Axis speed
-	 * @param Z
-	 *            -Axis speed
-	 */
-	public void launch(float rX, float rY, float rZ, float velocity)
-	{
-		xVel = (float) (velocity * Math.cos(Math.toRadians(rY + 90)));
-		yVel = (float) (velocity * Math.sin(Math.toRadians(rX)));
-		zVel = (float) (velocity * Math.sin(Math.toRadians(rY + 90)));
-	}
-
-	/**
 	 * Updates the entity
 	 */
 	public void update()
 	{
-		x -= xVel;
-		y -= yVel;
-		z -= zVel;
+		this.position.x -= this.velocity.x;
+		this.position.y -= this.velocity.y;
+		this.position.z -= this.velocity.z;
 	}
 
 	/**
@@ -79,6 +59,7 @@ public class Entity
 	 */
 	public void render()
 	{
+		//this.yaw+=0.5f;
 		Draw3D.draw3D(this);
 	}
 
@@ -103,11 +84,9 @@ public class Entity
 	 * @param loc
 	 *            Location to set the player to
 	 */
-	public void setLocation(Location3F loc)
+	public void setLocation(Vector3f loc)
 	{
-		this.x = loc.getX();
-		this.y = loc.getY();
-		this.z = loc.getZ();
+		this.position.set(loc);
 	}
 
 	/**
@@ -115,9 +94,9 @@ public class Entity
 	 * 
 	 * @return
 	 */
-	public Location3F getLocation()
+	public Vector3f getLocation()
 	{
-		return new Location3F(x, y, z);
+		return this.position;
 	}
 
 	/**
@@ -145,23 +124,28 @@ public class Entity
 		return this.depth;
 	}
 
-	public float getrotationX()
+	public float getPitch()
 	{
-		return this.rotationX;
+		return this.pitch;
 	}
 
-	public float getrotationY()
+	public float getYaw()
 	{
-		return this.rotationY;
+		return this.yaw;
 	}
 
-	public float getrotationZ()
+	public float getRoll()
 	{
-		return this.rotationZ;
+		return this.roll;
 	}
 
 	public TexturedModel getTexturedModel()
 	{
 		return this.model;
+	}
+
+	public void setTextureModel(TexturedModel model)
+	{
+		this.model = model;
 	}
 }
