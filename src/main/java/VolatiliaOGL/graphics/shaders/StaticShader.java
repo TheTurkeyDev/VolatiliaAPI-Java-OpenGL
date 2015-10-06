@@ -17,6 +17,8 @@ public class StaticShader extends BaseShader
 	private int location_viewMatrix;
 	private int location_lightPosition;
 	private int location_lightColor;
+	private int location_shineDampen;
+	private int location_reflection;
 
 	public StaticShader()
 	{
@@ -34,11 +36,13 @@ public class StaticShader extends BaseShader
 	@Override
 	protected void getAllUniformLocations()
 	{
-		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
-		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
-		location_viewMatrix = super.getUniformLocation("viewMatrix");
-		location_lightPosition = super.getUniformLocation("lightPosition");
-		location_lightColor = super.getUniformLocation("lightColor");
+		this.location_transformationMatrix = super.getUniformLocation("transformationMatrix");
+		this.location_projectionMatrix = super.getUniformLocation("projectionMatrix");
+		this.location_viewMatrix = super.getUniformLocation("viewMatrix");
+		this.location_lightPosition = super.getUniformLocation("lightPosition");
+		this.location_lightColor = super.getUniformLocation("lightColor");
+		this.location_shineDampen = super.getUniformLocation("shineDampen");
+		this.location_reflection = super.getUniformLocation("reflection");
 	}
 	
 	public void loadTransformationMatrix(Matrix4f matrix)
@@ -61,6 +65,12 @@ public class StaticShader extends BaseShader
 	{
 		super.loadVector(this.location_lightPosition, light.getPosition());
 		super.loadVector(this.location_lightColor, light.getColor());
+	}
+	
+	public void loadShineValues(float shineDampen, float reflection)
+	{
+		super.loadFloat(this.location_shineDampen, shineDampen);
+		super.loadFloat(this.location_reflection, reflection);
 	}
 
 }

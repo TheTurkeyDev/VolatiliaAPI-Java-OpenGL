@@ -137,7 +137,7 @@ public class VolatiliaAPI
 	public void render()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		GL11.glClearColor(0, 0, 0, 1);
+		GL11.glClearColor(.5f, 0, 0, 1);
 		if(ScreenManager.getInstance().getCurrentScreen() == null)
 		{
 			System.out.println("No Screen Set!");

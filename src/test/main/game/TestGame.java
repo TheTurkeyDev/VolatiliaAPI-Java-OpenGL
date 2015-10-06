@@ -25,12 +25,14 @@ public class TestGame extends GameBase
 		
 		super.setMap(map);
 
-		light = new LightEntity(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));
+		light = new LightEntity(new Vector3f(10, 10, -10), new Vector3f(1, 1, 1));
 		view = new DisplayView();
 		
 		dragon = new Entity(map);
-		dragon.setLocation(new Vector3f(0, 0, -25));
+		dragon.setLocation(new Vector3f(0, -5, -15));
 		TexturedModel model = new TexturedModel(OBJFileLoader.loadOBJFile(TestGame.class, "/models/dragon.obj"), new Texture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/modelTextures/white.png")));
+		model.getModelData().setShineDampen(30);
+		model.getModelData().setRefelction(1);
 		dragon.setTextureModel(model);
 		map.spawnEntity(dragon);
 	}

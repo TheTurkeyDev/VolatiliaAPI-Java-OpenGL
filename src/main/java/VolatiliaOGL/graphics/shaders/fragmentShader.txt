@@ -3,11 +3,14 @@
 in vec2 pass_textureCoordinates;
 in vec3 surfaceNormal;
 in vec3 toLightVector;
+in vec3 toCameraVector;
 
 out vec4 out_Color;
 
 uniform sampler2D textureSampler;
 uniform vec3 lightColor;
+uniform float shineDampen;
+uniform float reflection;
 
 void main(void)
 {
@@ -18,5 +21,13 @@ void main(void)
 	float brightness = max(dotResult, 0.0);
 	vec3 diffuse = brightness * lightColor;
 	
-	out_Color = vec4(diffuse, 1.0) * texture(textureSampler, pass_textureCoordinates);
+	vec3 unitVectorToCamera = normalize(toCameraVector);
+	vec3 reflectedLightVector = reflect(-unitLightVector, unitNormal);
+	
+	float specularDot = dot(reflectedLightVector, unitVectorToCamera);
+	specularDot = max(specularDot, 0.0);
+	float dampenedFactor = pow(specularDot, shineDampen);
+	vec3 finalSpecular = dampenedFactor * reflection * lightColor;
+	
+	out_Color = vec4(diffuse, 1.0) * texture(textureSampler, pass_textureCoordinates) + vec4(finalSpecular, 1.0);
 }
