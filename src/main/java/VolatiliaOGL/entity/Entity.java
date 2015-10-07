@@ -1,16 +1,15 @@
 package main.java.VolatiliaOGL.entity;
 
+import main.java.VolatiliaOGL.game.World;
 import main.java.VolatiliaOGL.graphics.models.TexturedModel;
-import main.java.VolatiliaOGL.graphics.renderers.Draw3D;
 import main.java.VolatiliaOGL.graphics.textures.TextureManager;
-import main.java.VolatiliaOGL.map.Map;
 
 import org.lwjgl.util.vector.Vector3f;
 
 public class Entity
 {
 	protected TexturedModel model;
-	protected Map map;
+	protected World map;
 
 	protected Vector3f position = new Vector3f(0, 0, 0);
 
@@ -29,7 +28,7 @@ public class Entity
 	/**
 	 * Creates a new Entity at the given location
 	 */
-	public Entity(Map map)
+	public Entity(World map)
 	{
 		this.map = map;
 	}
@@ -59,8 +58,7 @@ public class Entity
 	 */
 	public void render()
 	{
-		//this.yaw+=0.5f;
-		Draw3D.draw3D(this);
+		this.yaw+=0.5f;
 	}
 
 	/**

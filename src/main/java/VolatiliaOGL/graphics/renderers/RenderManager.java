@@ -1,24 +1,35 @@
 package main.java.VolatiliaOGL.graphics.renderers;
 
+import main.java.VolatiliaOGL.entity.LightEntity;
 import main.java.VolatiliaOGL.graphics.shaders.StaticShader;
+import main.java.VolatiliaOGL.player.DisplayView;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 
 public class RenderManager
 {
+	private static StaticShader shader = new StaticShader();
+	
 	private static float fov = 70;
 	private static float nearPlane = 0.1f;
 	private static float farPlane = 1000;
 
 	private static Matrix4f projectionMatrix;
 	
+	private static LightEntity light;
+	private static DisplayView view;
+	
+	public static EntityRenderer entityRenderer;
+	
 	public static void initRendering()
 	{
 		createProjectionMatrix();
-		StaticShader.INSTANCE.start();
-		StaticShader.INSTANCE.loadProjectionMatrix(projectionMatrix);
-		StaticShader.INSTANCE.stop();
+		shader.start();
+		shader.loadProjectionMatrix(projectionMatrix);
+		shader.stop();
+		
+		entityRenderer = new EntityRenderer(shader);
 	}
 
 	public static void createProjectionMatrix()
@@ -40,5 +51,42 @@ public class RenderManager
 	public static Matrix4f getProjectionMatrix()
 	{
 		return projectionMatrix;
+	}
+	
+	public static void cleanUp()
+	{
+		shader.cleanUp();
+	}
+	
+	public static void prepareRenderers()
+	{
+		shader.start();
+		shader.loadLight(light);
+		shader.loadViewMatrix(view);
+	}
+	
+	public static void endRenderers()
+	{
+		shader.stop();
+	}
+
+	public static LightEntity getLight()
+	{
+		return light;
+	}
+
+	public static void setLight(LightEntity light)
+	{
+		RenderManager.light = light;
+	}
+
+	public static DisplayView getDisplayView()
+	{
+		return view;
+	}
+
+	public static void setDisplayView(DisplayView view)
+	{
+		RenderManager.view = view;
 	}
 }

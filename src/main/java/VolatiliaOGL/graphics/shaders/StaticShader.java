@@ -8,7 +8,6 @@ import org.lwjgl.util.vector.Matrix4f;
 
 public class StaticShader extends BaseShader
 {
-	public static final StaticShader INSTANCE = new StaticShader();
 	private static final String VERTEX_FILE = "src/main/java/VolatiliaOGL/graphics/shaders/vertextShader.txt";
 	private static final String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/graphics/shaders/fragmentShader.txt";
 	

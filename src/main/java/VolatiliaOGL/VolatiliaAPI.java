@@ -5,7 +5,6 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import main.java.VolatiliaOGL.graphics.models.ModelLoader;
 import main.java.VolatiliaOGL.graphics.renderers.RenderManager;
-import main.java.VolatiliaOGL.graphics.shaders.StaticShader;
 import main.java.VolatiliaOGL.screen.ScreenManager;
 
 import org.lwjgl.LWJGLException;
@@ -17,7 +16,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-
+	public static final String VERSION = "Indev 0.1.0";
 	public static VolatiliaAPI instance;
 	private int fps_cap = 120;
 
@@ -52,7 +51,6 @@ public class VolatiliaAPI
 	 */
 	public void endGame()
 	{
-		StaticShader.INSTANCE.cleanUp();
 		ModelLoader.INSTANCE.RemoveAllStoredModels();
 		Display.destroy();
 	}
@@ -92,13 +90,24 @@ public class VolatiliaAPI
 	{
 		RenderManager.initRendering();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glClearColor(.5f, 0, 0, 1);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_BACK);
 	}
 
 	private void mainGameLoop()
 	{
 		while(!Display.isCloseRequested())
 		{
-			this.render();
+			if(ScreenManager.getInstance().getCurrentScreen() == null)
+			{
+				System.out.println("No Screen Set!");
+				return;
+			}
+			else
+			{
+				this.render();
+			}
 			Display.update();
 			Display.sync(this.fps_cap);
 		}
@@ -110,11 +119,6 @@ public class VolatiliaAPI
 	 */
 	public void pollInput()
 	{
-		if(ScreenManager.getInstance().getCurrentScreen() == null)
-		{
-			System.out.println("No Screen Set!");
-			return;
-		}
 		ScreenManager.getInstance().getCurrentScreen().pollInput();
 	}
 
@@ -123,11 +127,6 @@ public class VolatiliaAPI
 	 */
 	public void update()
 	{
-		if(ScreenManager.getInstance().getCurrentScreen() == null)
-		{
-			System.out.println("No Screen Set!");
-			return;
-		}
 		ScreenManager.getInstance().getCurrentScreen().update();
 	}
 
@@ -137,13 +136,9 @@ public class VolatiliaAPI
 	public void render()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		GL11.glClearColor(.5f, 0, 0, 1);
-		if(ScreenManager.getInstance().getCurrentScreen() == null)
-		{
-			System.out.println("No Screen Set!");
-			return;
-		}
+		RenderManager.prepareRenderers();
 		ScreenManager.getInstance().getCurrentScreen().render();
+		RenderManager.endRenderers();
 	}
 
 	public int getWidth()

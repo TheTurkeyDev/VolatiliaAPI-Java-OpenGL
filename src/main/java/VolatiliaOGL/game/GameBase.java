@@ -1,13 +1,12 @@
 package main.java.VolatiliaOGL.game;
 
-import main.java.VolatiliaOGL.map.Map;
 import main.java.VolatiliaOGL.player.BasePlayer;
 
 public class GameBase
 {
 	private static GameBase game;
 
-	private Map map;
+	private World world;
 
 	private BasePlayer player;
 
@@ -21,7 +20,7 @@ public class GameBase
 	 */
 	public void render()
 	{
-		map.render();
+		world.render();
 		if(player != null)
 			player.render();
 	}
@@ -31,7 +30,7 @@ public class GameBase
 	 */
 	public void update()
 	{
-		map.update();
+		world.update();
 		if(player != null)
 			player.update();
 	}
@@ -46,15 +45,15 @@ public class GameBase
 
 	public void clearGame()
 	{
-		this.map = null;
+		this.world = null;
 	}
 
 	/**
 	 * @return the current map
 	 */
-	public Map getMap()
+	public World getWorld()
 	{
-		return map;
+		return world;
 	}
 
 	/**
@@ -62,9 +61,9 @@ public class GameBase
 	 * 
 	 * @param map
 	 */
-	public void setMap(Map map)
+	public void setWorld(World world)
 	{
-		this.map = map;
+		this.world = world;
 	}
 
 	/**

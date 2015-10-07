@@ -1,7 +1,7 @@
 package main.java.VolatiliaOGL.player;
 
 import main.java.VolatiliaOGL.entity.Entity;
-import main.java.VolatiliaOGL.map.Map;
+import main.java.VolatiliaOGL.game.World;
 
 public class BasePlayer extends Entity
 {
@@ -13,7 +13,7 @@ public class BasePlayer extends Entity
 	 * @param view
 	 *            that the player sees
 	 */
-	public BasePlayer(Map map, DisplayView view)
+	public BasePlayer(World map, DisplayView view)
 	{
 		super(map);
 		camera = view;
