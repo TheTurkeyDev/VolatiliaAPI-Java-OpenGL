@@ -22,20 +22,21 @@ public class TestGame extends GameBase
 	public TestGame()
 	{
 		World world = new World(1, 1, 1);
-		
+
 		super.setWorld(world);
 
-		light = new LightEntity(new Vector3f(10, 10, -10), new Vector3f(1, 1, 1));
+		light = new LightEntity(new Vector3f(10, 10, -60), new Vector3f(1, 1, 1));
 		view = new DisplayView();
-		
+
 		RenderManager.setLight(light);
 		RenderManager.setDisplayView(view);
-		
-		dragon = new Entity(world);
-		dragon.setLocation(new Vector3f(0, -5, -15));
+
 		TexturedModel model = new TexturedModel(OBJFileLoader.loadOBJFile(TestGame.class, "/models/dragon.obj"), new Texture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/modelTextures/white.png")));
 		model.getModelData().setShineDampen(10);
 		model.getModelData().setRefelction(0.25f);
+		
+		dragon = new Entity(world);
+		dragon.setLocation(new Vector3f(100, 100, -75));
 		dragon.setTextureModel(model);
 		world.spawnEntity(dragon);
 	}
