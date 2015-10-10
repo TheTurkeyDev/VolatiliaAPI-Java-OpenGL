@@ -16,7 +16,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-	public static final String VERSION = "Indev 0.1.0";
+	public static final String VERSION = "Indev 0.1.1";
 	public static VolatiliaAPI instance;
 	private int fps_cap = 120;
 
@@ -138,7 +138,7 @@ public class VolatiliaAPI
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		RenderManager.prepareRenderers();
 		ScreenManager.getInstance().getCurrentScreen().render();
-		RenderManager.endRenderers();
+		RenderManager.stopRenderers();
 	}
 
 	public int getWidth()

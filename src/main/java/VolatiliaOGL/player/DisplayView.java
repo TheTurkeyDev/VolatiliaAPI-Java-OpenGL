@@ -6,9 +6,9 @@ public class DisplayView
 {
 	private Vector3f position = new Vector3f(0, 0, 0);
 
-	private float pitch;
-	private float yaw;
-	private float roll;
+	private float pitch = 0;
+	private float yaw = 0;
+	private float roll = 0;
 
 	/**
 	 * Creates a view that can be displayed on the screen

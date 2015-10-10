@@ -2,6 +2,7 @@ package main.java.VolatiliaOGL.graphics.renderers;
 
 import main.java.VolatiliaOGL.entity.LightEntity;
 import main.java.VolatiliaOGL.graphics.shaders.StaticShader;
+import main.java.VolatiliaOGL.graphics.shaders.TerrainShader;
 import main.java.VolatiliaOGL.player.DisplayView;
 
 import org.lwjgl.opengl.Display;
@@ -9,7 +10,8 @@ import org.lwjgl.util.vector.Matrix4f;
 
 public class RenderManager
 {
-	private static StaticShader shader = new StaticShader();
+	private static StaticShader staticShader = new StaticShader();
+	private static TerrainShader terrainShader = new TerrainShader();
 	
 	private static float fov = 70;
 	private static float nearPlane = 0.1f;
@@ -21,15 +23,22 @@ public class RenderManager
 	private static DisplayView view;
 	
 	public static EntityRenderer entityRenderer;
+	public static TerrainRenderer terrainRenderer;
 	
 	public static void initRendering()
 	{
 		createProjectionMatrix();
-		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
-		shader.stop();
 		
-		entityRenderer = new EntityRenderer(shader);
+		staticShader.start();
+		staticShader.loadProjectionMatrix(projectionMatrix);
+		staticShader.stop();
+		entityRenderer = new EntityRenderer(staticShader);
+		
+		terrainShader.start();
+		terrainShader.loadProjectionMatrix(projectionMatrix);
+		terrainShader.stop();
+		terrainRenderer = new TerrainRenderer(terrainShader);
+		
 	}
 
 	public static void createProjectionMatrix()
@@ -55,19 +64,25 @@ public class RenderManager
 	
 	public static void cleanUp()
 	{
-		shader.cleanUp();
+		staticShader.cleanUp();
+		terrainShader.cleanUp();
 	}
 	
 	public static void prepareRenderers()
 	{
-		shader.start();
-		shader.loadLight(light);
-		shader.loadViewMatrix(view);
+		staticShader.start();
+		staticShader.loadLight(light);
+		staticShader.loadViewMatrix(view);
+		
+		terrainShader.start();
+		terrainShader.loadLight(light);
+		terrainShader.loadViewMatrix(view);
 	}
 	
-	public static void endRenderers()
+	public static void stopRenderers()
 	{
-		shader.stop();
+		staticShader.stop();
+		terrainShader.stop();
 	}
 
 	public static LightEntity getLight()
