@@ -42,11 +42,12 @@ public class TestGame extends GameBase
 			}
 		}
 
-		dragon = new Entity(world);
-		dragon.setLocation(new Vector3f(0, -5, -15));
 		TexturedModel model = new TexturedModel(OBJFileLoader.loadOBJFile(TestGame.class, "/models/dragon.obj"), new Texture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/modelTextures/white.png")));
 		model.getModelData().setShineDampen(10);
 		model.getModelData().setRefelction(0.25f);
+		
+		dragon = new Entity(world);
+		dragon.setLocation(new Vector3f(0, -5, -15));
 		dragon.setTextureModel(model);
 		// world.spawnEntity(dragon);
 	}
