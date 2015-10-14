@@ -4,10 +4,10 @@ public class ModelData
 {
 	private int id;
 	private int vertexCount;
-	
+
 	private float shineDampen = 1;
 	private float refelction = 0;
-	
+
 	public ModelData(int id, int vertexCount)
 	{
 		this.id = id;

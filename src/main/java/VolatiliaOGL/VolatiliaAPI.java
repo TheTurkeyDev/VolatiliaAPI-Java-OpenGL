@@ -16,7 +16,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-	public static final String VERSION = "Indev 0.1.1";
+	public static final String VERSION = "Indev 0.1.2";
 	public static VolatiliaAPI instance;
 	private int fps_cap = 120;
 
@@ -91,8 +91,6 @@ public class VolatiliaAPI
 		RenderManager.initRendering();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClearColor(.5f, 0, 0, 1);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glEnable(GL11.GL_BACK);
 	}
 
 	private void mainGameLoop()
