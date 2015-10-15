@@ -1,5 +1,7 @@
 package main.java.VolatiliaOGL.graphics.renderers;
 
+import java.awt.Color;
+
 import main.java.VolatiliaOGL.entity.LightEntity;
 import main.java.VolatiliaOGL.graphics.shaders.StaticShader;
 import main.java.VolatiliaOGL.graphics.shaders.TerrainShader;
@@ -17,6 +19,9 @@ public class RenderManager
 	private static float fov = 70;
 	private static float nearPlane = 0.1f;
 	private static float farPlane = 1000;
+	
+	private static Color skyColor = new Color(128, 128, 128);
+	private static float fogDensity = 7;
 
 	private static Matrix4f projectionMatrix;
 
@@ -32,13 +37,15 @@ public class RenderManager
 
 		staticShader.start();
 		staticShader.loadProjectionMatrix(projectionMatrix);
-		staticShader.stop();
+		staticShader.loadFogDensity(fogDensity);
 		entityRenderer = new EntityRenderer(staticShader);
+		staticShader.stop();
 
 		terrainShader.start();
 		terrainShader.loadProjectionMatrix(projectionMatrix);
-		terrainShader.stop();
+		terrainShader.loadFogDensity(fogDensity);
 		terrainRenderer = new TerrainRenderer(terrainShader);
+		terrainShader.stop();
 
 	}
 
@@ -71,13 +78,17 @@ public class RenderManager
 
 	public static void prepareRenderers()
 	{
+		float[] color = RenderManager.getSkyColor3f();
+		
 		staticShader.start();
 		staticShader.loadLight(light);
 		staticShader.loadViewMatrix(view);
+		staticShader.loadSkyColor(color[0], color[1], color[2]);
 
 		terrainShader.start();
 		terrainShader.loadLight(light);
 		terrainShader.loadViewMatrix(view);
+		terrainShader.loadSkyColor(color[0], color[1], color[2]);
 	}
 
 	public static void stopRenderers()
@@ -115,5 +126,32 @@ public class RenderManager
 	public static void disableCulling()
 	{
 		GL11.glDisable(GL11.GL_CULL_FACE);
+	}
+
+	public static float getFogDensity()
+	{
+		return fogDensity;
+	}
+
+	public static void setFogGradient(float fogDensity)
+	{
+		RenderManager.fogDensity = fogDensity;
+	}
+
+	public static Color getSkyColor()
+	{
+		return skyColor;
+	}
+	
+	public static float[] getSkyColor3f()
+	{
+		return RenderManager.skyColor.getColorComponents(new float[4]);
+	}
+	
+
+	public static void setSkyColor(Color skyColor)
+	{
+		float[] color = RenderManager.skyColor.getColorComponents(new float[4]);
+		GL11.glClearColor(color[0], color[1], color[2], 1);
 	}
 }

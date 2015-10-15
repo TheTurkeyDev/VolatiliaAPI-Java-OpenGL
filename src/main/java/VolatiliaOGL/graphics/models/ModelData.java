@@ -4,14 +4,16 @@ public class ModelData
 {
 	private int id;
 	private int vertexCount;
+	private float furthestPoint;
 
 	private float shineDampen = 1;
 	private float refelction = 0;
 
-	public ModelData(int id, int vertexCount)
+	public ModelData(int id, int vertexCount, float furthestPoint)
 	{
 		this.id = id;
 		this.vertexCount = vertexCount;
+		this.setFurthestPoint(furthestPoint);
 	}
 
 	public int getId()
@@ -42,5 +44,15 @@ public class ModelData
 	public void setRefelction(float refelction)
 	{
 		this.refelction = refelction;
+	}
+
+	public float getFurthestPoint()
+	{
+		return furthestPoint;
+	}
+
+	public void setFurthestPoint(float furthestPoint)
+	{
+		this.furthestPoint = furthestPoint;
 	}
 }

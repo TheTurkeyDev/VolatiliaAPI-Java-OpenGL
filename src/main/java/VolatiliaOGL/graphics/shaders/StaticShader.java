@@ -5,6 +5,7 @@ import main.java.VolatiliaOGL.player.DisplayView;
 import main.java.VolatiliaOGL.util.MatrixMath;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 public class StaticShader extends BaseShader
 {
@@ -19,6 +20,8 @@ public class StaticShader extends BaseShader
 	private int location_shineDampen;
 	private int location_reflection;
 	private int location_useFakeLighting;
+	private int location_fogDensity;
+	private int location_skyColor;
 
 	public StaticShader()
 	{
@@ -44,6 +47,8 @@ public class StaticShader extends BaseShader
 		this.location_shineDampen = super.getUniformLocation("shineDampen");
 		this.location_reflection = super.getUniformLocation("reflection");
 		this.location_useFakeLighting = super.getUniformLocation("useFakeLighting");
+		this.location_fogDensity = super.getUniformLocation("density");
+		this.location_skyColor = super.getUniformLocation("skyColor");
 	}
 
 	public void loadTransformationMatrix(Matrix4f matrix)
@@ -79,4 +84,13 @@ public class StaticShader extends BaseShader
 		super.loadBoolean(this.location_useFakeLighting, fake);
 	}
 
+	public void loadFogDensity(float density)
+	{
+		super.loadFloat(this.location_fogDensity, density / 1000);
+	}
+
+	public void loadSkyColor(float r, float g, float b)
+	{
+		super.loadVector(this.location_skyColor, new Vector3f(r, g, b));
+	}
 }

@@ -2,7 +2,8 @@ package main.java.VolatiliaOGL.game;
 
 import main.java.VolatiliaOGL.graphics.models.ModelData;
 import main.java.VolatiliaOGL.graphics.models.ModelLoader;
-import main.java.VolatiliaOGL.graphics.textures.Texture;
+import main.java.VolatiliaOGL.graphics.textures.TerrainTexture;
+import main.java.VolatiliaOGL.graphics.textures.TerrainTexturePack;
 
 public class Terrain
 {
@@ -12,11 +13,13 @@ public class Terrain
 	private float x;
 	private float z;
 	private ModelData model;
-	private Texture texture;
+	private TerrainTexturePack texturePack;
+	private TerrainTexture blandMap;
 
-	public Terrain(int gridX, int gridZ, Texture texture)
+	public Terrain(int gridX, int gridZ, TerrainTexturePack pack, TerrainTexture bMap)
 	{
-		this.texture = texture;
+		this.texturePack = pack;
+		this.blandMap = bMap;
 		this.x = gridX * SIZE;
 		this.z = gridZ * SIZE;
 		this.model = this.generateTerrain();
@@ -37,9 +40,14 @@ public class Terrain
 		return model;
 	}
 
-	public Texture getTexture()
+	public TerrainTexturePack getTexturePack()
 	{
-		return texture;
+		return texturePack;
+	}
+
+	public TerrainTexture getBlandMap()
+	{
+		return blandMap;
 	}
 
 	private ModelData generateTerrain()
@@ -82,6 +90,6 @@ public class Terrain
 				indices[pointer++] = bottomRight;
 			}
 		}
-		return ModelLoader.INSTANCE.loadToModelData(vertices, textureCoords, normals, indices);
+		return ModelLoader.INSTANCE.loadToModelData(vertices, textureCoords, normals, indices, 0);
 	}
 }

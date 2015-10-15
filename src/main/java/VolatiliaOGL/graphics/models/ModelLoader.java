@@ -18,7 +18,7 @@ public class ModelLoader
 	private List<Integer> loadedModels = new ArrayList<Integer>();
 	private List<Integer> loadedAttributes = new ArrayList<Integer>();
 
-	public ModelData loadToModelData(float[] positions, float[] textureCords, float[] normals, int[] indices)
+	public ModelData loadToModelData(float[] positions, float[] textureCords, float[] normals, int[] indices, float furthest)
 	{
 		int id = createVAO();
 		this.bindIndeciesBuffer(indices);
@@ -26,7 +26,7 @@ public class ModelLoader
 		storeDatainAttribList(1, 2, textureCords);
 		storeDatainAttribList(2, 3, normals);
 		unbindID();
-		return new ModelData(id, indices.length);
+		return new ModelData(id, indices.length, furthest);
 	}
 
 	public void RemoveAllStoredModels()
