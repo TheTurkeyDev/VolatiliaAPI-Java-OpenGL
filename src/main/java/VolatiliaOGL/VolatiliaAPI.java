@@ -8,6 +8,7 @@ import main.java.VolatiliaOGL.graphics.renderers.RenderManager;
 import main.java.VolatiliaOGL.screen.ScreenManager;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -22,6 +23,9 @@ public class VolatiliaAPI
 
 	private int width, height;
 	private String name;
+	
+	private long lastFrameTime;
+	private float delta;
 
 	public VolatiliaAPI(String name, int width, int height)
 	{
@@ -96,6 +100,7 @@ public class VolatiliaAPI
 
 	private void mainGameLoop()
 	{
+		lastFrameTime = this.getCurrentTime();
 		while(!Display.isCloseRequested())
 		{
 			if(ScreenManager.getInstance().getCurrentScreen() == null)
@@ -106,6 +111,9 @@ public class VolatiliaAPI
 			else
 			{
 				this.render();
+				long currentFrameTime = this.getCurrentTime();
+				delta = (currentFrameTime - this.lastFrameTime);
+				this.lastFrameTime = currentFrameTime;
 			}
 			Display.update();
 			Display.sync(this.fps_cap);
@@ -139,7 +147,17 @@ public class VolatiliaAPI
 		ScreenManager.getInstance().getCurrentScreen().render();
 		RenderManager.stopRenderers();
 	}
-
+	
+	private long getCurrentTime()
+	{
+		return (Sys.getTime() * 1000 / Sys.getTimerResolution());
+	}
+	
+	public float getFrameTimeSeconds()
+	{
+		return delta;
+	}
+	
 	public int getWidth()
 	{
 		return this.width;
