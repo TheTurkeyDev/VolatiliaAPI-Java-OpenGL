@@ -47,8 +47,8 @@ public class TestGame extends GameBase
 		model.getModelData().setRefelction(0.25f);
 		
 		dragon = new Entity(world);
-		dragon.setLocation(new Vector3f(0, -5, -15));
+		dragon.setLocation(new Vector3f(0, 0, -10));
 		dragon.setTextureModel(model);
-		// world.spawnEntity(dragon);
+		world.spawnEntity(dragon);
 	}
 }

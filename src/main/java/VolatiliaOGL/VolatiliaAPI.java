@@ -88,9 +88,10 @@ public class VolatiliaAPI
 	 */
 	private void startOpenGL()
 	{
-		RenderManager.initRendering();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		RenderManager.setSkyColor(.5f, 0, 0);
 		GL11.glClearColor(.5f, 0, 0, 1);
+		RenderManager.initRendering();
 	}
 
 	private void mainGameLoop()

@@ -17,6 +17,7 @@ public class RenderManager
 	private static float fov = 70;
 	private static float nearPlane = 0.1f;
 	private static float farPlane = 1000;
+	private static float[] skyColor = new float[3];
 
 	private static Matrix4f projectionMatrix;
 
@@ -32,13 +33,15 @@ public class RenderManager
 
 		staticShader.start();
 		staticShader.loadProjectionMatrix(projectionMatrix);
-		staticShader.stop();
+		staticShader.loadSkyColor(skyColor[0], skyColor[1], skyColor[2]);
 		entityRenderer = new EntityRenderer(staticShader);
+		staticShader.stop();
 
 		terrainShader.start();
 		terrainShader.loadProjectionMatrix(projectionMatrix);
-		terrainShader.stop();
+		//terrainShader.loadSkyColor(skyColor[0], skyColor[1], skyColor[2]);
 		terrainRenderer = new TerrainRenderer(terrainShader);
+		terrainShader.stop();
 
 	}
 
@@ -115,5 +118,17 @@ public class RenderManager
 	public static void disableCulling()
 	{
 		GL11.glDisable(GL11.GL_CULL_FACE);
+	}
+
+	public static float[] getSkyColor()
+	{
+		return skyColor;
+	}
+
+	public static void setSkyColor(float r, float g, float b)
+	{
+		RenderManager.skyColor[0] = r;
+		RenderManager.skyColor[1] = g;
+		RenderManager.skyColor[2] = b;
 	}
 }
