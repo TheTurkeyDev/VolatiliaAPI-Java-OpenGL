@@ -86,7 +86,7 @@ public class StaticShader extends BaseShader
 
 	public void loadFogDensity(float density)
 	{
-		super.loadFloat(this.location_fogDensity, density / 1000);
+		super.loadFloat(this.location_fogDensity, density);
 	}
 
 	public void loadSkyColor(float r, float g, float b)

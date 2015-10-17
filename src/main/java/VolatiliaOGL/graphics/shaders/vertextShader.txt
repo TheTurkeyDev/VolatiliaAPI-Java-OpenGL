@@ -15,8 +15,8 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
 uniform float useFakeLighting;
-uniform float density;
 
+const float density = 0.007;
 const float gradient = 1.5;
 
 void main(void)
@@ -39,5 +39,6 @@ void main(void)
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 	
 	float distance = length(positionRelToView.xyz);
-	visibility = clamp(exp(-pow((distance*density), gradient)), 0.0, 1.0);
+	visibility = exp(-pow((distance*density), gradient));
+	visibility = clamp(visibility, 0.0, 1.0);
 }

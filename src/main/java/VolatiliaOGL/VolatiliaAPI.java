@@ -114,6 +114,7 @@ public class VolatiliaAPI
 				long currentFrameTime = this.getCurrentTime();
 				delta = (currentFrameTime - this.lastFrameTime);
 				this.lastFrameTime = currentFrameTime;
+				this.update();
 			}
 			Display.update();
 			Display.sync(this.fps_cap);

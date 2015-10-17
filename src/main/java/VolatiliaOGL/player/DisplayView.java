@@ -4,6 +4,11 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class DisplayView
 {
+	private BasePlayer player;
+
+	private float distanceFromPlayer = 50;
+	private float angleAroundPlayer = 0;
+
 	private Vector3f position = new Vector3f(0, 0, 0);
 
 	private float pitch = 0;
@@ -13,11 +18,28 @@ public class DisplayView
 	/**
 	 * Creates a view that can be displayed on the screen
 	 */
-	public DisplayView()
+	public DisplayView(BasePlayer player)
 	{
-		
+		this.player = player;
 	}
-	
+
+	/**
+	 * Updates this display
+	 */
+	public void updateView()
+	{
+		float totalRot = player.getYaw() + this.angleAroundPlayer;
+		float horizDist = (float) (this.distanceFromPlayer * Math.cos(Math.toRadians(pitch)));
+
+		// this.yaw = 180 - totalRot;
+		this.yaw += .25;
+
+		this.position.x = player.getLocation().x - (float) (horizDist * Math.sin(Math.toRadians(totalRot)));
+		this.position.y = (player.getLocation().y + ((float) (this.distanceFromPlayer * Math.sin(Math.toRadians(pitch)))));
+		this.position.z = player.getLocation().z - (float) (horizDist * Math.cos(Math.toRadians(totalRot)));
+
+	}
+
 	/**
 	 * 
 	 * @return the position of the camera
@@ -59,7 +81,7 @@ public class DisplayView
 	{
 		this.position.z = z;
 	}
-	
+
 	public void setPosition(Vector3f pos)
 	{
 		this.position.set(pos);
@@ -148,5 +170,15 @@ public class DisplayView
 	public void rotateYaw(float r)
 	{
 		yaw += r;
+	}
+
+	public void zoomView(int zoomAmount)
+	{
+		this.distanceFromPlayer += zoomAmount;
+	}
+
+	public void setViewAngleToPlayer(int angle)
+	{
+		this.angleAroundPlayer = angle;
 	}
 }

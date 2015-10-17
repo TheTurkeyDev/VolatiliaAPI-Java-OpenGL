@@ -18,5 +18,11 @@ public class TestScreen extends Screen
 		super.render();
 		game.render();
 	}
+	
+	public void update()
+	{
+		super.update();
+		game.update();
+	}
 
 }

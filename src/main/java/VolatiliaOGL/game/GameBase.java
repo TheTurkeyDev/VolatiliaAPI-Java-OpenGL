@@ -6,9 +6,9 @@ public class GameBase
 {
 	private static GameBase game;
 
-	private World world;
+	protected World world;
 
-	private BasePlayer player;
+	protected BasePlayer player;
 
 	public GameBase()
 	{

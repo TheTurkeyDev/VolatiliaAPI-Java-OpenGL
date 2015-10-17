@@ -13,10 +13,9 @@ public class BasePlayer extends Entity
 	 * @param view
 	 *            that the player sees
 	 */
-	public BasePlayer(World map, DisplayView view)
+	public BasePlayer(World world)
 	{
-		super(map);
-		camera = view;
+		super(world);
 	}
 
 	/**
@@ -24,6 +23,7 @@ public class BasePlayer extends Entity
 	 */
 	public void render()
 	{
+
 	}
 
 	/**
@@ -31,7 +31,8 @@ public class BasePlayer extends Entity
 	 */
 	public void update()
 	{
-
+		if(this.camera != null)
+			this.camera.updateView();
 	}
 
 	/**

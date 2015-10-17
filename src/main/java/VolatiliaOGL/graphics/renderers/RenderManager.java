@@ -19,9 +19,9 @@ public class RenderManager
 	private static float fov = 70;
 	private static float nearPlane = 0.1f;
 	private static float farPlane = 1000;
-	
+
 	private static Color skyColor = new Color(128, 128, 128);
-	private static float fogDensity = 7;
+	private static float fogDensity = 0.007f;
 
 	private static Matrix4f projectionMatrix;
 
@@ -79,16 +79,16 @@ public class RenderManager
 	public static void prepareRenderers()
 	{
 		float[] color = RenderManager.getSkyColor3f();
-		
+
 		staticShader.start();
 		staticShader.loadLight(light);
 		staticShader.loadViewMatrix(view);
-		staticShader.loadSkyColor(color[0], color[1], color[2]);
+		staticShader.loadSkyColor(color[0] / 255f, color[1] / 255f, color[2] / 255f);
 
 		terrainShader.start();
 		terrainShader.loadLight(light);
 		terrainShader.loadViewMatrix(view);
-		terrainShader.loadSkyColor(color[0], color[1], color[2]);
+		terrainShader.loadSkyColor(color[0] / 255f, color[1] / 255f, color[2] / 255f);
 	}
 
 	public static void stopRenderers()
@@ -142,12 +142,11 @@ public class RenderManager
 	{
 		return skyColor;
 	}
-	
+
 	public static float[] getSkyColor3f()
 	{
 		return RenderManager.skyColor.getColorComponents(new float[4]);
 	}
-	
 
 	public static void setSkyColor(Color skyColor)
 	{
