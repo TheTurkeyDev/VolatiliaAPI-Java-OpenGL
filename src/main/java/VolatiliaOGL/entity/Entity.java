@@ -2,12 +2,16 @@ package main.java.VolatiliaOGL.entity;
 
 import main.java.VolatiliaOGL.game.World;
 import main.java.VolatiliaOGL.graphics.models.TexturedModel;
-import main.java.VolatiliaOGL.graphics.textures.TextureManager;
 
 import org.lwjgl.util.vector.Vector3f;
 
 public class Entity
 {
+	private float moveSpeed = 20;
+	private float turnSpeed = 160;
+	private float jumpSpeed = 30;
+	private float gravity = -50;
+	
 	protected TexturedModel model;
 	protected World map;
 
@@ -24,6 +28,7 @@ public class Entity
 	protected float roll;
 
 	private boolean isAlive = true;
+	private boolean isAirBorne = false;
 
 	/**
 	 * Creates a new Entity at the given location
@@ -31,16 +36,6 @@ public class Entity
 	public Entity(World map)
 	{
 		this.map = map;
-	}
-
-	/**
-	 * 
-	 * @param Texture
-	 *            Manager to load textures
-	 */
-	public void loadTextures(TextureManager manager)
-	{
-
 	}
 
 	/**
@@ -58,7 +53,7 @@ public class Entity
 	 */
 	public void render()
 	{
-		this.yaw+=0.5f;
+		
 	}
 
 	/**
@@ -136,6 +131,46 @@ public class Entity
 	{
 		return this.roll;
 	}
+	
+	public float getMoveSpeed()
+	{
+		return moveSpeed;
+	}
+
+	public void setMoveSpeed(float moveSpeed)
+	{
+		this.moveSpeed = moveSpeed;
+	}
+
+	public float getTurnSpeed()
+	{
+		return turnSpeed;
+	}
+
+	public void setTurnSpeed(float turnSpeed)
+	{
+		this.turnSpeed = turnSpeed;
+	}
+
+	public float getJumpSpeed()
+	{
+		return jumpSpeed;
+	}
+
+	public void setJumpSpeed(float jumpSpeed)
+	{
+		this.jumpSpeed = jumpSpeed;
+	}
+
+	public float getGravity()
+	{
+		return gravity;
+	}
+
+	public void setGravity(float gravity)
+	{
+		this.gravity = gravity;
+	}
 
 	public TexturedModel getTexturedModel()
 	{
@@ -145,5 +180,15 @@ public class Entity
 	public void setTextureModel(TexturedModel model)
 	{
 		this.model = model;
+	}
+
+	public boolean isAirBorne()
+	{
+		return isAirBorne;
+	}
+
+	public void setAirBorne(boolean isAirBorne)
+	{
+		this.isAirBorne = isAirBorne;
 	}
 }

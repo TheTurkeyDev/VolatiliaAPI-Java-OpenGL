@@ -81,7 +81,7 @@ public class StaticShader extends BaseShader
 	{
 		super.loadBoolean(this.location_useFakeLighting, fake);
 	}
-
+	
 	public void loadSkyColor(float r, float g, float b)
 	{
 		super.loadVector(this.location_skyColor, new Vector3f(r, g, b));

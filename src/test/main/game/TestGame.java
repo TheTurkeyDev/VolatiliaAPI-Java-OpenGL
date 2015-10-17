@@ -7,6 +7,8 @@ import main.java.VolatiliaOGL.game.Terrain;
 import main.java.VolatiliaOGL.game.World;
 import main.java.VolatiliaOGL.graphics.models.TexturedModel;
 import main.java.VolatiliaOGL.graphics.renderers.RenderManager;
+import main.java.VolatiliaOGL.graphics.textures.TerrainTexture;
+import main.java.VolatiliaOGL.graphics.textures.TerrainTexturePack;
 import main.java.VolatiliaOGL.graphics.textures.Texture;
 import main.java.VolatiliaOGL.graphics.textures.TextureManager;
 import main.java.VolatiliaOGL.player.DisplayView;
@@ -33,16 +35,21 @@ public class TestGame extends GameBase
 		RenderManager.setLight(light);
 		RenderManager.setDisplayView(view);
 		
-		for(int x = -1; x < 2; x++)
-		{
-			for(int z = -1; z < 2; z++)
-			{
-				Terrain terrain = new Terrain(x, z, new Texture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/modelTextures/white.png")));
-				world.addTerrain(terrain);
-			}
-		}
+		TerrainTexture bgT = new TerrainTexture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/terrain/grassy2.png"));
+		TerrainTexture rT = new TerrainTexture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/terrain/mud.png"));
+		TerrainTexture bT = new TerrainTexture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/terrain/grassFlowers.png"));
+		TerrainTexture gT = new TerrainTexture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/terrain/path.png"));
 
-		TexturedModel model = new TexturedModel(OBJFileLoader.loadOBJFile(TestGame.class, "/models/dragon.obj"), new Texture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/modelTextures/white.png")));
+		TerrainTexturePack pack = new TerrainTexturePack(bgT, rT, gT, bT);
+		TerrainTexture bm = new TerrainTexture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/terrain/blendMap/blendMap.png"));
+		
+		Terrain t1 = new Terrain(0, -1, pack, bm);
+		Terrain t2 = new Terrain(-1, -1, pack, bm);
+		
+		world.addTerrain(t1);
+		world.addTerrain(t2);
+		
+		TexturedModel model = new TexturedModel(OBJFileLoader.loadOBJFile(TestGame.class, "/models/dragon"), new Texture(TextureManager.INSTANCE.loadTexture(TestGame.class, "/textures/modelTextures/white.png")));
 		model.getModelData().setShineDampen(10);
 		model.getModelData().setRefelction(0.25f);
 		

@@ -70,6 +70,11 @@ public abstract class BaseShader
 	{
 		GL20.glUniform1f(location, value);
 	}
+	
+	protected void loadInt(int location, int value)
+	{
+		GL20.glUniform1i(location, value);
+	}
 
 	protected void loadVector(int location, Vector3f vector)
 	{

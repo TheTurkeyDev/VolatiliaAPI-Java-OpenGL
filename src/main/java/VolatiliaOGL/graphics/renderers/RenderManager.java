@@ -17,6 +17,7 @@ public class RenderManager
 	private static float fov = 70;
 	private static float nearPlane = 0.1f;
 	private static float farPlane = 1000;
+	
 	private static float[] skyColor = new float[3];
 
 	private static Matrix4f projectionMatrix;
@@ -74,13 +75,17 @@ public class RenderManager
 
 	public static void prepareRenderers()
 	{
+		float[] color = RenderManager.getSkyColor();
+		
 		staticShader.start();
 		staticShader.loadLight(light);
 		staticShader.loadViewMatrix(view);
+		staticShader.loadSkyColor(color[0], color[1], color[2]);
 
 		terrainShader.start();
 		terrainShader.loadLight(light);
 		terrainShader.loadViewMatrix(view);
+		terrainShader.loadSkyColor(color[0], color[1], color[2]);
 	}
 
 	public static void stopRenderers()
