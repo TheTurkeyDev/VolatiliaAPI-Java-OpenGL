@@ -29,7 +29,7 @@ public class TestGame extends GameBase
 
 		super.setWorld(world);
 
-		light = new LightEntity(new Vector3f(3000, 2000, 2000), new Vector3f(1, 1, 1));
+		light = new LightEntity(new Vector3f(0, 20, 0), new Vector3f(1, 1, 1));
 		BasePlayer player = new BasePlayer(world);
 		view = new DisplayView(player);
 
@@ -59,7 +59,7 @@ public class TestGame extends GameBase
 		model.getModelData().setRefelction(0.25f);
 
 		dragon = new Entity(world);
-		dragon.setLocation(new Vector3f(0, 5, -15));
+		dragon.setLocation(new Vector3f(0, 5, -5));
 		dragon.setTextureModel(model);
 		world.spawnEntity(dragon);
 	}
