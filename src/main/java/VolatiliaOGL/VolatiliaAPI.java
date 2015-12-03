@@ -1,12 +1,5 @@
 package main.java.VolatiliaOGL;
 
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
-import main.java.VolatiliaOGL.graphics.models.ModelLoader;
-import main.java.VolatiliaOGL.graphics.renderers.RenderManager;
-import main.java.VolatiliaOGL.screen.ScreenManager;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.ContextAttribs;
@@ -17,155 +10,55 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-	public static final String VERSION = "Indev 0.1.3";
+	public static final String VERSION = "Indev 1.0.0";
 	public static VolatiliaAPI instance;
-	private int fps_cap = 120;
 
-	private int width, height;
-	private String name;
-	
-	private long lastFrameTime;
-	private float delta;
+	private static final int WIDTH = 1280;
+	private static final int HEIGHT = 720;
+	private static final int FPS_CAP = 60;
 
-	public VolatiliaAPI(String name, int width, int height)
+	private static long lastFrameTime;
+	private static float delta;
+
+	public static void createDisplay()
 	{
-		instance = this;
-		this.name = name;
-		this.height = height;
-		this.width = width;
-	}
-
-	public void load()
-	{
-		createScreen();
-		apiInit();
-	}
-
-	/**
-	 * Starts the Game
-	 */
-	public void start()
-	{
-		startOpenGL();
-		mainGameLoop();
-	}
-
-	/**
-	 * Ends the Game
-	 */
-	public void endGame()
-	{
-		ModelLoader.INSTANCE.RemoveAllStoredModels();
-		Display.destroy();
-	}
-
-	/**
-	 * Sets up the screen for the game
-	 */
-	private void createScreen()
-	{
+		ContextAttribs attribs = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
 		try
 		{
-			ContextAttribs attributes = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
-			Display.setDisplayMode(new DisplayMode(width, height));
-			Display.setTitle(name);
-			// Display.setResizable(true);
-			Display.create(new PixelFormat(), attributes);
+			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+			Display.create(new PixelFormat(), attribs);
+			Display.setTitle("TEST API - Version: " + VolatiliaAPI.VERSION);
 		} catch(LWJGLException e)
 		{
 			e.printStackTrace();
 		}
-		GL11.glViewport(0, 0, this.width, this.height);
+
+		GL11.glViewport(0, 0, WIDTH, HEIGHT);
+		lastFrameTime = getCurrentTime();
 	}
 
-	/**
-	 * Starts all game objects that need to be pre initialized
-	 */
-	private void apiInit()
+	public static void updateDisplay()
 	{
-		new ScreenManager();
-		// new FontManager();
+		Display.sync(FPS_CAP);
+		Display.update();
+
+		long currentFrameTime = getCurrentTime();
+		delta = (currentFrameTime - lastFrameTime) / 1000f;
+		lastFrameTime = currentFrameTime;
 	}
 
-	/**
-	 * Initializes OpenGL
-	 */
-	private void startOpenGL()
+	public static void closeDisplay()
 	{
-		RenderManager.initRendering();
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		float[] color = RenderManager.getSkyColor3f();
-		GL11.glClearColor(color[0], color[1], color[2], 1);
+		Display.destroy();
 	}
 
-	private void mainGameLoop()
+	private static long getCurrentTime()
 	{
-		lastFrameTime = this.getCurrentTime();
-		while(!Display.isCloseRequested())
-		{
-			if(ScreenManager.getInstance().getCurrentScreen() == null)
-			{
-				System.out.println("No Screen Set!");
-				return;
-			}
-			else
-			{
-				this.render();
-				long currentFrameTime = this.getCurrentTime();
-				delta = (currentFrameTime - this.lastFrameTime);
-				this.lastFrameTime = currentFrameTime;
-				this.update();
-			}
-			Display.update();
-			Display.sync(this.fps_cap);
-		}
-		this.endGame();
+		return Sys.getTime() * 1000 / Sys.getTimerResolution();
 	}
 
-	/**
-	 * Polls outside input (Keyboard, Mouse, ect..)
-	 */
-	public void pollInput()
-	{
-		ScreenManager.getInstance().getCurrentScreen().pollInput();
-	}
-
-	/**
-	 * Updates the game
-	 */
-	public void update()
-	{
-		ScreenManager.getInstance().getCurrentScreen().update();
-	}
-
-	/**
-	 * Renders the game screen
-	 */
-	public void render()
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		RenderManager.prepareRenderers();
-		ScreenManager.getInstance().getCurrentScreen().render();
-		RenderManager.stopRenderers();
-	}
-	
-	private long getCurrentTime()
-	{
-		return (Sys.getTime() * 1000 / Sys.getTimerResolution());
-	}
-	
-	public float getFrameTimeSeconds()
+	public static float getFrameTimeSeconds()
 	{
 		return delta;
-	}
-	
-	public int getWidth()
-	{
-		return this.width;
-	}
-
-	public int getHeight()
-	{
-		return this.height;
 	}
 }
