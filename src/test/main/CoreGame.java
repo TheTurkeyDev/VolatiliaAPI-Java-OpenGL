@@ -1,5 +1,6 @@
 package test.main;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +48,10 @@ public class CoreGame
 		TextMaster.init();
 
 		FontType font = new FontType(Loader.INSTANCE.loadTexture("font/TestFont"), new File("res/font/TestFont.fnt"));
-		GuiText text = new GuiText("This is a test >:)", 3, font, new Vector2f(0.0f, 0.4f), 1f, true);
-		text.setColor(0.1f, 0.1f, 0.1f);
+		GuiText text = new GuiText("This is a test >:)", 3, font, new Vector2f(0.0f, 0.0f), 1f, true);
+		float color = 0, boarder = 0;
+		boolean up = true;
+		text.setColor(0, 0, 0);
 
 		ModelData data = OBJLoader.loadOBJ("models/dragon");
 		RawModel model = Loader.INSTANCE.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
@@ -132,6 +135,23 @@ public class CoreGame
 			fbos.unbindCurrentFrameBuffer();
 			renderer.renderScene(entities, normalEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 100000));
 			waterRenderer.render(waters, camera, lights.get(0));
+
+			color += 0.005;
+			Color tmpClr = new Color(Color.HSBtoRGB(color, 1F, 1F));
+			text.setColor(new Vector3f(tmpClr.getRed() / 255F, tmpClr.getGreen() / 255F, tmpClr.getBlue() / 255F));
+			if(up)
+			{
+				boarder += 0.01;
+				if(boarder > 0.75)
+					up = false;
+			}
+			else
+			{
+				boarder -= 0.01;
+				if(boarder < 0.5)
+					up = true;
+			}
+			text.setBoarderWidth(boarder);
 
 			TextMaster.render();
 
