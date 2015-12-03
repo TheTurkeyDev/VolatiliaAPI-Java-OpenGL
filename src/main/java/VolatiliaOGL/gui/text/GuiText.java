@@ -5,9 +5,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Represents a piece of text in the game.
- * 
- * @author Karl
- *
  */
 public class GuiText
 {
@@ -18,6 +15,12 @@ public class GuiText
 	private int textMeshVao;
 	private int vertexCount;
 	private Vector3f color = new Vector3f(0f, 0f, 0f);
+	private float width = 0.5f;
+	private float edge = 0.1f;
+	private float boarderWidth = 0.0f;
+	private float boarderEdge = 0.1f;
+	private Vector2f offset = new Vector2f(0.0f, 0.0f);
+	private Vector3f outlineColor = new Vector3f(0.0f, 0.0f, 0.0f);
 
 	private Vector2f position;
 	private float lineMaxSize;
@@ -86,11 +89,82 @@ public class GuiText
 	}
 
 	/**
+	 * Set the color of the text to the given color vector
+	 * 
+	 * @param color
+	 *            - vector (r, g, b) in which each value is between 0 and 1.
+	 */
+	public void setColor(Vector3f color)
+	{
+		this.color = color;
+	}
+
+	/**
 	 * @return the color of the text.
 	 */
 	public Vector3f getColor()
 	{
 		return color;
+	}
+
+	public float getWidth()
+	{
+		return width;
+	}
+
+	public void setWidth(float width)
+	{
+		this.width = width;
+	}
+
+	public float getEdge()
+	{
+		return edge;
+	}
+
+	public void setEdge(float edge)
+	{
+		this.edge = edge;
+	}
+
+	public float getBoarderWidth()
+	{
+		return boarderWidth;
+	}
+
+	public void setBoarderWidth(float boarderWidth)
+	{
+		this.boarderWidth = boarderWidth;
+	}
+
+	public float getBoarderEdge()
+	{
+		return boarderEdge;
+	}
+
+	public void setBoarderEdge(float boarderEdge)
+	{
+		this.boarderEdge = boarderEdge;
+	}
+
+	public Vector2f getOffset()
+	{
+		return offset;
+	}
+
+	public void setOffset(Vector2f offset)
+	{
+		this.offset = offset;
+	}
+
+	public Vector3f getOutlineColor()
+	{
+		return outlineColor;
+	}
+
+	public void setOutlineColor(Vector3f outlineColor)
+	{
+		this.outlineColor = outlineColor;
 	}
 
 	/**

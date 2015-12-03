@@ -2,7 +2,7 @@ package main.java.VolatiliaOGL.renderEngine;
 
 import java.util.List;
 
-import main.java.VolatiliaOGL.gui.GuiTexture;
+import main.java.VolatiliaOGL.gui.GuiComponent;
 import main.java.VolatiliaOGL.models.RawModel;
 import main.java.VolatiliaOGL.shaders.gui.GuiShader;
 import main.java.VolatiliaOGL.util.Loader;
@@ -26,7 +26,7 @@ public class GuiRenderer
 		shader = new GuiShader();
 	}
 
-	public void render(List<GuiTexture> guis)
+	public void render(List<GuiComponent> guis)
 	{
 		shader.start();
 		GL30.glBindVertexArray(quad.getVaoID());
@@ -34,7 +34,7 @@ public class GuiRenderer
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		for(GuiTexture gui : guis)
+		for(GuiComponent gui : guis)
 		{
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.getTexureID());
