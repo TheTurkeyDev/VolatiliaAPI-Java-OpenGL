@@ -17,7 +17,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Terrain
 {
-	private static final float SIZE = 800;
+	public static final float SIZE = 800;
 	private static final float MAX_HEIGHT = 40;
 	private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
@@ -150,6 +150,16 @@ public class Terrain
 	public float getZ()
 	{
 		return z;
+	}
+	
+	public float getGridX()
+	{
+		return x / SIZE;
+	}
+
+	public float getGridZ()
+	{
+		return z / SIZE;
 	}
 
 	public RawModel getModel()

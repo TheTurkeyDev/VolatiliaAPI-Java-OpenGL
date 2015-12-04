@@ -5,6 +5,7 @@ import java.util.List;
 import main.java.VolatiliaOGL.VolatiliaAPI;
 import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Light;
+import main.java.VolatiliaOGL.game.World;
 import main.java.VolatiliaOGL.models.RawModel;
 import main.java.VolatiliaOGL.shaders.water.WaterShader;
 import main.java.VolatiliaOGL.terrains.WaterFrameBuffers;
@@ -43,6 +44,7 @@ public class WaterRenderer
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
+		shader.loadFogData(World.fogDensity, World.fogGradient);
 		shader.stop();
 		setUpVAO();
 	}
@@ -67,6 +69,7 @@ public class WaterRenderer
 		moveFactor %= 1;
 		shader.loadMoveFactor(moveFactor);
 		shader.loadLight(sun);
+		shader.loadSkyColor(MasterRenderer.SKYRED, MasterRenderer.SKYGREEN, MasterRenderer.SKYBLUE);
 		GL30.glBindVertexArray(quad.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);

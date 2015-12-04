@@ -6,6 +6,7 @@ import java.util.Map;
 import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
+import main.java.VolatiliaOGL.game.World;
 import main.java.VolatiliaOGL.models.RawModel;
 import main.java.VolatiliaOGL.models.TexturedModel;
 import main.java.VolatiliaOGL.shaders.normalMap.NormalMappingShader;
@@ -30,6 +31,7 @@ public class NormalMappingRenderer
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
+		shader.loadFogData(World.fogDensity, World.fogGradient);
 		shader.stop();
 	}
 

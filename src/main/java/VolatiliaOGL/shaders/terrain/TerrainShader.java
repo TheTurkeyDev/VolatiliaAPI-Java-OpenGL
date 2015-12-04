@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector4f;
 public class TerrainShader extends BaseShader
 {
 	private static final int MAX_LIGHTS = 4;
-	
+
 	private static final String VERTEX_FILE = "src/main/java/VolatiliaOGL/shaders/terrain/terrainVertexShader.txt";
 	private static final String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/shaders/terrain/terrainFragmentShader.txt";
 
@@ -33,6 +33,8 @@ public class TerrainShader extends BaseShader
 	private int locationBTexture;
 	private int locationBlendMap;
 	private int locationClipPlane;
+	private int locationDensity;
+	private int locationGradient;
 
 	public TerrainShader()
 	{
@@ -62,6 +64,8 @@ public class TerrainShader extends BaseShader
 		this.locationBTexture = super.getUniformLocation("bTexture");
 		this.locationBlendMap = super.getUniformLocation("blendMap");
 		this.locationClipPlane = super.getUniformLocation("plane");
+		this.locationDensity = super.getUniformLocation("density");
+		this.locationGradient = super.getUniformLocation("gradient");
 
 		locationLightPosition = new int[MAX_LIGHTS];
 		locationLightColor = new int[MAX_LIGHTS];
@@ -70,7 +74,7 @@ public class TerrainShader extends BaseShader
 		{
 			locationLightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
 			locationLightColor[i] = super.getUniformLocation("lightColor[" + i + "]");
-			locationLightAttenuation[i] =  super.getUniformLocation("attenuation[" + i + "]");
+			locationLightAttenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
 	}
 
@@ -113,12 +117,12 @@ public class TerrainShader extends BaseShader
 		super.loadFloat(this.locationShineDampen, dampen);
 		super.loadFloat(this.locationReflectivity, reflectivity);
 	}
-	
+
 	public void loadSkyColor(float r, float g, float b)
 	{
 		super.loadVector(this.locationSkyColor, new Vector3f(r, g, b));
 	}
-	
+
 	public void connectTextureUnits()
 	{
 		super.loadInt(this.locationBackgroundTexture, 0);
@@ -127,9 +131,15 @@ public class TerrainShader extends BaseShader
 		super.loadInt(this.locationBTexture, 3);
 		super.loadInt(this.locationBlendMap, 4);
 	}
-	
+
 	public void loadClipedPlane(Vector4f plane)
 	{
 		super.loadVector(this.locationClipPlane, plane);
+	}
+
+	public void loadFogData(float density, float gradient)
+	{
+		super.loadFloat(this.locationDensity, density);
+		super.loadFloat(this.locationGradient, gradient);
 	}
 }

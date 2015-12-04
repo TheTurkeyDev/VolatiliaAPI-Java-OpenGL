@@ -35,9 +35,8 @@ public class FontRenderer
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, font.getTextureAtlas());
 			for(GuiText text : texts.get(font))
-			{
-				this.renderText(text);
-			}
+				if(text.isVisible())
+					this.renderText(text);
 		}
 		this.endRendering();
 	}

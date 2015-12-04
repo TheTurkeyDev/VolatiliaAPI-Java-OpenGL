@@ -32,6 +32,8 @@ public class NormalMappingShader extends BaseShader
 	private int locationPlane;
 	private int locationModelTexture;
 	private int locationNormalMap;
+	private int locationDensity;
+	private int locationGradient;
 
 	public NormalMappingShader()
 	{
@@ -61,6 +63,8 @@ public class NormalMappingShader extends BaseShader
 		this.locationPlane = super.getUniformLocation("plane");
 		this.locationModelTexture = super.getUniformLocation("modelTexture");
 		this.locationNormalMap = super.getUniformLocation("normalMap");
+		this.locationDensity = super.getUniformLocation("density");
+		this.locationGradient = super.getUniformLocation("gradient");
 
 		this.locationLightPositionEyeSpace = new int[MAX_LIGHTS];
 		this.locationLightColour = new int[MAX_LIGHTS];
@@ -147,4 +151,9 @@ public class NormalMappingShader extends BaseShader
 		return new Vector3f(eyeSpacePos);
 	}
 
+	public void loadFogData(float density, float gradient)
+	{
+		super.loadFloat(this.locationDensity, density);
+		super.loadFloat(this.locationGradient, gradient);
+	}
 }

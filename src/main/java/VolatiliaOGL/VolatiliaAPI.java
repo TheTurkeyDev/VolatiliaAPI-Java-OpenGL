@@ -1,5 +1,8 @@
 package main.java.VolatiliaOGL;
 
+import main.java.VolatiliaOGL.gui.text.TextMaster;
+import main.java.VolatiliaOGL.screen.ScreenManager;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.ContextAttribs;
@@ -10,7 +13,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-	public static final String VERSION = "Indev 1.0.0";
+	public static final String VERSION = "Indev 1.1.0";
 	public static VolatiliaAPI instance;
 
 	private static final int WIDTH = 1280;
@@ -35,6 +38,12 @@ public class VolatiliaAPI
 
 		GL11.glViewport(0, 0, WIDTH, HEIGHT);
 		lastFrameTime = getCurrentTime();
+	}
+	
+	public static void initAPI()
+	{
+		TextMaster.init();
+		new ScreenManager();
 	}
 
 	public static void updateDisplay()

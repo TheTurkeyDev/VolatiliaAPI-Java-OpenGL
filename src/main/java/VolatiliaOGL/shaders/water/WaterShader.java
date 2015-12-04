@@ -6,6 +6,7 @@ import main.java.VolatiliaOGL.shaders.BaseShader;
 import main.java.VolatiliaOGL.util.MathUtil;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 public class WaterShader extends BaseShader
 {
@@ -25,6 +26,9 @@ public class WaterShader extends BaseShader
 	private int locationLightPosition;
 	private int locationLightColor;
 	private int locationDepthMap;
+	private int locationDensity;
+	private int locationGradient;
+	private int locationSkyColor;
 
 	public WaterShader()
 	{
@@ -52,6 +56,9 @@ public class WaterShader extends BaseShader
 		this.locationLightPosition = super.getUniformLocation("lightPosition");
 		this.locationLightColor = super.getUniformLocation("lightColor");
 		this.locationDepthMap = super.getUniformLocation("depthMap");
+		this.locationDensity = super.getUniformLocation("density");
+		this.locationGradient = super.getUniformLocation("gradient");
+		this.locationSkyColor = super.getUniformLocation("skyColor");
 	}
 
 	public void loadProjectionMatrix(Matrix4f projection)
@@ -89,5 +96,16 @@ public class WaterShader extends BaseShader
 	{
 		super.loadVector(this.locationLightPosition, sun.getPosition());
 		super.loadVector(this.locationLightColor, sun.getColor());
+	}
+	
+	public void loadFogData(float density, float gradient)
+	{
+		super.loadFloat(this.locationDensity, density);
+		super.loadFloat(this.locationGradient, gradient);
+	}
+	
+	public void loadSkyColor(float r, float g, float b)
+	{
+		super.loadVector(this.locationSkyColor, new Vector3f(r, g, b));
 	}
 }

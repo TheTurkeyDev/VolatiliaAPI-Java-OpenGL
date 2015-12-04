@@ -22,8 +22,8 @@ uniform vec2 offset;
 
 uniform vec4 plane;
 
-const float density = 0.0035;
-const float gradient = 5;
+uniform float density;
+uniform float gradient;
 
 void main(void)
 {

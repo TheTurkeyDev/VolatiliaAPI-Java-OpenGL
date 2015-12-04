@@ -32,6 +32,8 @@ public class StaticShader extends BaseShader
 	private int locationTextureAtlasRows;
 	private int locationTextureOffset;
 	private int locationClipPlane;
+	private int locationDensity;
+	private int locationGradient;
 
 	public StaticShader()
 	{
@@ -59,6 +61,8 @@ public class StaticShader extends BaseShader
 		this.locationTextureAtlasRows = super.getUniformLocation("numberOfRows");
 		this.locationTextureOffset = super.getUniformLocation("offset");
 		this.locationClipPlane = super.getUniformLocation("plane");
+		this.locationDensity = super.getUniformLocation("density");
+		this.locationGradient = super.getUniformLocation("gradient");
 
 		locationLightPosition = new int[MAX_LIGHTS];
 		locationLightColor = new int[MAX_LIGHTS];
@@ -67,7 +71,7 @@ public class StaticShader extends BaseShader
 		{
 			locationLightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
 			locationLightColor[i] = super.getUniformLocation("lightColor[" + i + "]");
-			locationLightAttenuation[i] =  super.getUniformLocation("attenuation[" + i + "]");
+			locationLightAttenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
 	}
 
@@ -130,9 +134,15 @@ public class StaticShader extends BaseShader
 	{
 		super.loadVector(this.locationTextureOffset, new Vector2f(x, y));
 	}
-	
+
 	public void loadClipedPlane(Vector4f plane)
 	{
 		super.loadVector(this.locationClipPlane, plane);
+	}
+
+	public void loadFogData(float density, float gradient)
+	{
+		super.loadFloat(this.locationDensity, density);
+		super.loadFloat(this.locationGradient, gradient);
 	}
 }

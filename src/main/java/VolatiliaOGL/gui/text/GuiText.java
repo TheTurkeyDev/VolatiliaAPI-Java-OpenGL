@@ -29,6 +29,8 @@ public class GuiText
 	private FontType font;
 
 	private boolean centerText = false;
+	
+	private boolean visible = true;
 
 	/**
 	 * Creates a new text, loads the text's quads into a VAO, and adds the text to the screen.
@@ -54,7 +56,6 @@ public class GuiText
 		this.position = position;
 		this.lineMaxSize = maxLineLength;
 		this.centerText = centered;
-		TextMaster.loadText(this);
 	}
 
 	/**
@@ -254,5 +255,14 @@ public class GuiText
 	{
 		return textString;
 	}
-
+	
+	public boolean isVisible()
+	{
+		return this.visible;
+	}
+	
+	public void setVisible(boolean visible)
+	{
+		this.visible = visible;
+	}
 }

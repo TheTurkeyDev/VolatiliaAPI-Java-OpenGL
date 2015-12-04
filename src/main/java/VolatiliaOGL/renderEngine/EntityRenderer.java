@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import main.java.VolatiliaOGL.entities.Entity;
+import main.java.VolatiliaOGL.game.World;
 import main.java.VolatiliaOGL.models.RawModel;
 import main.java.VolatiliaOGL.models.TexturedModel;
 import main.java.VolatiliaOGL.shaders.basic.StaticShader;
@@ -25,6 +26,7 @@ public class EntityRenderer
 		this.shader = shader;
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
+		shader.loadFogData(World.fogDensity, World.fogGradient);
 		shader.stop();
 	}
 	

@@ -2,6 +2,7 @@ package main.java.VolatiliaOGL.renderEngine;
 
 import java.util.List;
 
+import main.java.VolatiliaOGL.game.World;
 import main.java.VolatiliaOGL.models.RawModel;
 import main.java.VolatiliaOGL.shaders.terrain.TerrainShader;
 import main.java.VolatiliaOGL.terrains.Terrain;
@@ -25,6 +26,7 @@ public class TerrainRenderer
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
+		shader.loadFogData(World.fogDensity, World.fogGradient);
 		shader.stop();
 	}
 

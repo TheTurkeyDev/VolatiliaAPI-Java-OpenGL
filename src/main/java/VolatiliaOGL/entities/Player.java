@@ -36,9 +36,11 @@ public class Player extends Entity
 		super.increasePosition(xinc, 0, zinc);
 		this.upwardsSpeed += GRAVITY * VolatiliaAPI.getFrameTimeSeconds();
 		super.increasePosition(0, this.upwardsSpeed * VolatiliaAPI.getFrameTimeSeconds(), 0);
-		float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+		float terrainHeight = 0;
+		if(terrain != null)
+			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
 		if(super.getPosition().y < terrainHeight)
-		{	
+		{
 			upwardsSpeed = 0;
 			isInAir = false;
 			super.getPosition().y = terrainHeight;
