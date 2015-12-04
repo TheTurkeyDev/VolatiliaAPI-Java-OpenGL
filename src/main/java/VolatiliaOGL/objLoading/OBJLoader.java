@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.VolatiliaOGL.models.ModelData;
+import main.java.VolatiliaOGL.models.RawModel;
+import main.java.VolatiliaOGL.util.Loader;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -17,7 +19,7 @@ public class OBJLoader
 {
 	private static final String RES_LOC = "res/";
 
-	public static ModelData loadOBJ(String objFileName)
+	public static RawModel loadOBJ(String objFileName)
 	{
 		FileReader isr = null;
 		File objFile = new File(RES_LOC + objFileName + ".obj");
@@ -28,7 +30,7 @@ public class OBJLoader
 		{
 			System.err.println("File not found in res; don't use any extention");
 		}
-		
+
 		BufferedReader reader = new BufferedReader(isr);
 		String line;
 		List<Vertex> vertices = new ArrayList<Vertex>();
@@ -87,8 +89,9 @@ public class OBJLoader
 		float[] normalsArray = new float[vertices.size() * 3];
 		float furthest = convertDataToArrays(vertices, textures, normals, verticesArray, texturesArray, normalsArray);
 		int[] indicesArray = convertIndicesListToArray(indices);
-		
-		return new ModelData(verticesArray, texturesArray, normalsArray, indicesArray, furthest);
+
+		ModelData data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray, furthest);
+		return Loader.INSTANCE.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 	}
 
 	private static void processVertex(String[] vertex, List<Vertex> vertices, List<Integer> indices)

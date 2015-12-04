@@ -28,7 +28,7 @@ public class TestScreen extends Screen
 	public void setUp()
 	{
 		text.setColor(0, 0, 0);
-		super.addGuiText(text);
+		super.addText(text);
 		super.setUp();
 	}
 

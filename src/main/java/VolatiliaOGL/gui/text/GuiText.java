@@ -59,14 +59,6 @@ public class GuiText
 	}
 
 	/**
-	 * Remove the text from the screen.
-	 */
-	public void remove()
-	{
-		TextMaster.removeText(this);
-	}
-
-	/**
 	 * @return The font used by this text.
 	 */
 	public FontType getFont()

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ScreenManager
 {
 	private Screen currentScreen;
-	private static ScreenManager sm;
+	private static ScreenManager sm = new ScreenManager();
 
 	private ArrayList<Screen> screens = new ArrayList<Screen>();
 
@@ -90,5 +90,13 @@ public class ScreenManager
 			}
 		}
 		return null;
+	}
+	
+	public void finalCleanUpAllScreens()
+	{
+		for(Screen s: screens)
+		{
+			s.finalCleanUp();
+		}
 	}
 }

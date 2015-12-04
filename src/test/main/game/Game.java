@@ -5,8 +5,6 @@ import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
 import main.java.VolatiliaOGL.entities.Player;
 import main.java.VolatiliaOGL.game.World;
-import main.java.VolatiliaOGL.models.ModelData;
-import main.java.VolatiliaOGL.models.RawModel;
 import main.java.VolatiliaOGL.models.TexturedModel;
 import main.java.VolatiliaOGL.objLoading.NormalMappedObjLoader;
 import main.java.VolatiliaOGL.objLoading.OBJLoader;
@@ -33,17 +31,11 @@ public class Game
 
 	public void loadGame()
 	{
-		ModelData data = OBJLoader.loadOBJ("models/dragon");
-		RawModel model = Loader.INSTANCE.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-		ModelTexture texture = new ModelTexture(Loader.INSTANCE.loadTexture("textures/models/white"));
-		TexturedModel tmodel = new TexturedModel(model, texture);
-		texture.setReflectivity(1);
-		texture.setShineDamper(10);
+		TexturedModel dragon = new TexturedModel(OBJLoader.loadOBJ("models/dragon"), new ModelTexture(Loader.INSTANCE.loadTexture("textures/models/white")));
+		dragon.getTexture().setReflectivity(1);
+		dragon.getTexture().setShineDamper(10);
 
-		ModelData bunnyModel = OBJLoader.loadOBJ("models/stanfordBunny");
-		RawModel bunnyRawModel = Loader.INSTANCE.loadToVAO(bunnyModel.getVertices(), bunnyModel.getTextureCoords(), bunnyModel.getNormals(), bunnyModel.getIndices());
-		ModelTexture bunnyTexture = new ModelTexture(Loader.INSTANCE.loadTexture("textures/models/white"));
-		TexturedModel bunny = new TexturedModel(bunnyRawModel, bunnyTexture);
+		TexturedModel bunny = new TexturedModel(OBJLoader.loadOBJ("models/stanfordBunny"), new ModelTexture(Loader.INSTANCE.loadTexture("textures/models/white")));
 
 		TexturedModel barrel = new TexturedModel(NormalMappedObjLoader.loadOBJ("models/barrel"), new ModelTexture(Loader.INSTANCE.loadTexture("textures/models/barrel")));
 		barrel.getTexture().setNormalMapID(Loader.INSTANCE.loadTexture("textures/normalMaps/barrelNormal"));
@@ -64,7 +56,8 @@ public class Game
 		world.addTerrain(new Terrain(0, 0, texturePack, blendMap, "textures/terrain/heightMap"));
 		world.addTerrain(new Terrain(0, -1, texturePack, blendMap, "textures/terrain/heightMap"));
 		world.addWater(new WaterTile(75, 125, 0));
-		world.addEntityToWorld(new Entity(tmodel, new Vector3f(50, 0, -50), 0, 0, 0, 1));
+		//world.addWater(new WaterTile(150, 125, 5));
+		world.addEntityToWorld(new Entity(dragon, new Vector3f(50, 0, -50), 0, 0, 0, 1));
 		world.addEntityToWorld(player);
 		world.addNormalEntityToWorld(new Entity(barrel, new Vector3f(75, 10, -75), 0, 0, 0, 1f));
 		world.setSun(new Light(new Vector3f(0, 1000, -7000), new Vector3f(1f, 1f, 1f)));
