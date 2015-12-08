@@ -5,7 +5,7 @@ import test.main.game.Game;
 
 public class TestGameScreen extends Screen
 {
-	private Game game = new Game();
+	private Game game = new Game(this);
 
 	public TestGameScreen()
 	{

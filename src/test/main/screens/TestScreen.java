@@ -22,14 +22,9 @@ public class TestScreen extends Screen
 	public TestScreen()
 	{
 		super("Test Screen");
-
-	}
-
-	public void setUp()
-	{
 		text.setColor(0, 0, 0);
 		super.addText(text);
-		super.setUp();
+
 	}
 
 	public void render()

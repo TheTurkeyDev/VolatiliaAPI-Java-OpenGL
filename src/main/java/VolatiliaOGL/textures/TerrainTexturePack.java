@@ -1,5 +1,7 @@
 package main.java.VolatiliaOGL.textures;
 
+import main.java.VolatiliaOGL.util.Loader;
+
 public class TerrainTexturePack
 {
 	private TerrainTexture backgroundTexture;
@@ -7,12 +9,12 @@ public class TerrainTexturePack
 	private TerrainTexture gTexture;
 	private TerrainTexture bTexture;
 	
-	public TerrainTexturePack(TerrainTexture backgroundTexture, TerrainTexture rTexture, TerrainTexture gTexture, TerrainTexture bTexture)
+	public TerrainTexturePack(String backgroundPath, String rPath, String gPath, String bPath)
 	{
-		this.backgroundTexture = backgroundTexture;
-		this.rTexture = rTexture;
-		this.gTexture = gTexture;
-		this.bTexture = bTexture;
+		this.backgroundTexture = new TerrainTexture(Loader.INSTANCE.loadTexture(rPath));
+		this.rTexture = new TerrainTexture(Loader.INSTANCE.loadTexture(rPath));
+		this.gTexture =  new TerrainTexture(Loader.INSTANCE.loadTexture(gPath));
+		this.bTexture =  new TerrainTexture(Loader.INSTANCE.loadTexture(bPath));
 	}
 
 	public TerrainTexture getBackgroundTexture()

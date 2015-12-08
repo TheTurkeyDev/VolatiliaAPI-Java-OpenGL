@@ -32,6 +32,7 @@ public class VolatiliaAPI
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.create(new PixelFormat(), attribs);
 			Display.setTitle("TEST API - Version: " + VolatiliaAPI.VERSION);
+			Display.setResizable(true);
 		} catch(LWJGLException e)
 		{
 			e.printStackTrace();
@@ -66,7 +67,7 @@ public class VolatiliaAPI
 	public static void cleanUpGame()
 	{
 		ScreenManager.getInstance().finalCleanUpAllScreens();
-		
+
 		MasterRenderer.INSTANCE.cleanUp();
 
 		Loader.INSTANCE.CleanUp();
