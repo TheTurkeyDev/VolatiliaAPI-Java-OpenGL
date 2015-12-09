@@ -11,7 +11,7 @@ public class TerrainTexturePack
 	
 	public TerrainTexturePack(String backgroundPath, String rPath, String gPath, String bPath)
 	{
-		this.backgroundTexture = new TerrainTexture(Loader.INSTANCE.loadTexture(rPath));
+		this.backgroundTexture = new TerrainTexture(Loader.INSTANCE.loadTexture(backgroundPath));
 		this.rTexture = new TerrainTexture(Loader.INSTANCE.loadTexture(rPath));
 		this.gTexture =  new TerrainTexture(Loader.INSTANCE.loadTexture(gPath));
 		this.bTexture =  new TerrainTexture(Loader.INSTANCE.loadTexture(bPath));

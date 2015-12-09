@@ -2,6 +2,7 @@ package main.java.VolatiliaOGL.entities;
 
 import main.java.VolatiliaOGL.VolatiliaAPI;
 import main.java.VolatiliaOGL.models.TexturedModel;
+import main.java.VolatiliaOGL.settings.VideoSettings;
 import main.java.VolatiliaOGL.terrains.Terrain;
 
 import org.lwjgl.input.Keyboard;
@@ -87,6 +88,17 @@ public class Player extends Entity
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE))
 		{
 			this.jump();
+		}
+
+		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
+		{
+			if(VideoSettings.getFOV() != 30)
+				VideoSettings.setFOV(30);
+		}
+		else
+		{
+			if(VideoSettings.getFOV() != 70)
+				VideoSettings.setFOV(70);
 		}
 	}
 

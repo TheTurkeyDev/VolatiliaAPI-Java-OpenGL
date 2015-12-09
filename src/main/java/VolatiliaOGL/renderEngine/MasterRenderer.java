@@ -9,6 +9,7 @@ import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
 import main.java.VolatiliaOGL.models.TexturedModel;
+import main.java.VolatiliaOGL.settings.VideoSettings;
 import main.java.VolatiliaOGL.shaders.basic.StaticShader;
 import main.java.VolatiliaOGL.shaders.terrain.TerrainShader;
 import main.java.VolatiliaOGL.terrains.Terrain;
@@ -21,10 +22,6 @@ import org.lwjgl.util.vector.Vector4f;
 public class MasterRenderer
 {
 	public static final MasterRenderer INSTANCE = new MasterRenderer();
-	
-	private static final float FOV = 70;
-	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1000;
 
 	public static final float SKYRED = 0.5444f;
 	public static final float SKYGREEN = 0.62f;
@@ -46,11 +43,11 @@ public class MasterRenderer
 
 	public MasterRenderer()
 	{
-		this.createProjectionMatrix();
-		renderer = new EntityRenderer(shader, projectionMatrix);
-		terainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
-		skyboxRenderer = new SkyboxRenderer(projectionMatrix);
-		normalMapRenderer = new NormalMappingRenderer(projectionMatrix);
+		renderer = new EntityRenderer(shader);
+		terainRenderer = new TerrainRenderer(terrainShader);
+		skyboxRenderer = new SkyboxRenderer();
+		normalMapRenderer = new NormalMappingRenderer();
+		this.createProjectionMatrix(VideoSettings.getFOV(), VideoSettings.getFarPlane(), VideoSettings.getNearPlane());
 	}
 
 	public void render(List<Light> lights, Camera camera, Vector4f clipPlane)
@@ -154,20 +151,25 @@ public class MasterRenderer
 		this.normalMapRenderer.cleanUp();
 	}
 
-	private void createProjectionMatrix()
+	public void createProjectionMatrix(float fov, float farPlane, float nearPlane)
 	{
 		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
+		float y_scale = (float) ((1f / Math.tan(Math.toRadians(fov / 2f))) * aspectRatio);
 		float x_scale = y_scale / aspectRatio;
-		float frustum_length = FAR_PLANE - NEAR_PLANE;
+		float frustum_length = farPlane - nearPlane;
 
 		projectionMatrix = new Matrix4f();
 		projectionMatrix.m00 = x_scale;
 		projectionMatrix.m11 = y_scale;
-		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
+		projectionMatrix.m22 = -((farPlane + nearPlane) / frustum_length);
 		projectionMatrix.m23 = -1;
-		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
+		projectionMatrix.m32 = -((2 * farPlane * nearPlane) / frustum_length);
 		projectionMatrix.m33 = 0;
+		
+		renderer.updateProjectionMatrix(projectionMatrix);
+		terainRenderer.updateProjectionMatrix(projectionMatrix);
+		skyboxRenderer.updateProjectionMatrix(projectionMatrix);
+		normalMapRenderer.updateProjectionMatrix(projectionMatrix);
 	}
 
 	public Matrix4f getProjectionMatrix()

@@ -21,11 +21,10 @@ public class EntityRenderer
 {
 	private StaticShader shader;
 
-	public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix)
+	public EntityRenderer(StaticShader shader)
 	{
 		this.shader = shader;
 		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
 		shader.loadFogData(World.fogDensity, World.fogGradient);
 		shader.stop();
 	}
@@ -77,5 +76,12 @@ public class EntityRenderer
 		Matrix4f transformationMatrix = MathUtil.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
 		shader.loadTransformationMatrix(transformationMatrix);
 		shader.loadTextureOffset(entity.getTextureXOffset(), entity.getTextureYOffset());
+	}
+	
+	public void updateProjectionMatrix(Matrix4f projectionMatrix)
+	{
+		shader.start();
+		shader.loadProjectionMatrix(projectionMatrix);
+		shader.stop();
 	}
 }

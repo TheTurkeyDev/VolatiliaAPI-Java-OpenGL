@@ -2,6 +2,7 @@ package main.java.VolatiliaOGL;
 
 import main.java.VolatiliaOGL.renderEngine.MasterRenderer;
 import main.java.VolatiliaOGL.screen.ScreenManager;
+import main.java.VolatiliaOGL.settings.VideoSettings;
 import main.java.VolatiliaOGL.util.Loader;
 
 import org.lwjgl.LWJGLException;
@@ -17,10 +18,6 @@ public class VolatiliaAPI
 	public static final String VERSION = "Indev 1.1.1";
 	public static VolatiliaAPI instance;
 
-	private static final int WIDTH = 1280;
-	private static final int HEIGHT = 720;
-	private static final int FPS_CAP = 60;
-
 	private static long lastFrameTime;
 	private static float delta;
 
@@ -29,7 +26,7 @@ public class VolatiliaAPI
 		ContextAttribs attribs = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
 		try
 		{
-			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+			Display.setDisplayMode(new DisplayMode(VideoSettings.WIDTH, VideoSettings.HEIGHT));
 			Display.create(new PixelFormat(), attribs);
 			Display.setTitle("TEST API - Version: " + VolatiliaAPI.VERSION);
 			Display.setResizable(true);
@@ -38,13 +35,13 @@ public class VolatiliaAPI
 			e.printStackTrace();
 		}
 
-		GL11.glViewport(0, 0, WIDTH, HEIGHT);
+		GL11.glViewport(0, 0, VideoSettings.WIDTH, VideoSettings.HEIGHT);
 		lastFrameTime = getCurrentTime();
 	}
 
 	public static void updateDisplay()
 	{
-		Display.sync(FPS_CAP);
+		Display.sync(VideoSettings.fpsCap);
 		Display.update();
 
 		long currentFrameTime = getCurrentTime();

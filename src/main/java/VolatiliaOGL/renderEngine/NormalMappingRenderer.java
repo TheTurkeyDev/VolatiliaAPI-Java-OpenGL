@@ -25,11 +25,10 @@ public class NormalMappingRenderer
 
 	private NormalMappingShader shader;
 
-	public NormalMappingRenderer(Matrix4f projectionMatrix)
+	public NormalMappingRenderer()
 	{
 		this.shader = new NormalMappingShader();
 		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
 		shader.loadFogData(World.fogDensity, World.fogGradient);
 		shader.stop();
@@ -106,5 +105,11 @@ public class NormalMappingRenderer
 		shader.loadLights(lights, viewMatrix);
 		shader.loadViewMatrix(viewMatrix);
 	}
-
+	
+	public void updateProjectionMatrix(Matrix4f projectionMatrix)
+	{
+		shader.start();
+		shader.loadProjectionMatrix(projectionMatrix);
+		shader.stop();
+	}
 }

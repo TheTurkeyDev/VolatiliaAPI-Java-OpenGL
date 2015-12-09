@@ -20,11 +20,10 @@ public class TerrainRenderer
 {
 	private TerrainShader shader;
 
-	public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix)
+	public TerrainRenderer(TerrainShader shader)
 	{
 		this.shader = shader;
 		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
 		shader.loadFogData(World.fogDensity, World.fogGradient);
 		shader.stop();
@@ -79,5 +78,12 @@ public class TerrainRenderer
 	{
 		Matrix4f transformationMatrix = MathUtil.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
 		shader.loadTransformationMatrix(transformationMatrix);
+	}
+	
+	public void updateProjectionMatrix(Matrix4f projectionMatrix)
+	{
+		shader.start();
+		shader.loadProjectionMatrix(projectionMatrix);
+		shader.stop();
 	}
 }
