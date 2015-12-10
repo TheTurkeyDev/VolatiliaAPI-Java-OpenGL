@@ -35,14 +35,13 @@ public class WaterRenderer
 	private int dudvTexture;
 	private int normalMapTexture;
 
-	public WaterRenderer(WaterShader shader, Matrix4f projectionMatrix, WaterFrameBuffers fbos)
+	public WaterRenderer(WaterShader shader, WaterFrameBuffers fbos)
 	{
 		this.shader = shader;
 		this.fbos = fbos;
 		this.dudvTexture = Loader.INSTANCE.loadTexture(DUDV_MAP);
 		this.normalMapTexture = Loader.INSTANCE.loadTexture(NORMAL_MAP);
 		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
 		shader.loadFogData(World.fogDensity, World.fogGradient);
 		shader.stop();
@@ -54,6 +53,7 @@ public class WaterRenderer
 		prepareRender(camera, sun);
 		for(WaterTile tile : water)
 		{
+			shader.loadProjectionMatrix(MasterRenderer.INSTANCE.getProjectionMatrix());
 			Matrix4f modelMatrix = MathUtil.createTransformationMatrix(new Vector3f(tile.getX(), tile.getHeight(), tile.getZ()), 0, 0, 0, WaterTile.TILE_SIZE);
 			shader.loadModelMatrix(modelMatrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, quad.getVertexCount());
@@ -100,6 +100,13 @@ public class WaterRenderer
 		// Just x and z vectex positions here, y is set to 0 in v.shader
 		float[] vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
 		quad = Loader.INSTANCE.loadToVAO(vertices, 2);
+	}
+	
+	public void updateProjectionMatrix(Matrix4f projectionMatrix)
+	{
+		shader.start();
+		shader.loadProjectionMatrix(projectionMatrix);
+		shader.stop();
 	}
 
 }

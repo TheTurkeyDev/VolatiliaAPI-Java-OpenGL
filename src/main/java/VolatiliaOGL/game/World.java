@@ -34,11 +34,12 @@ public class World
 	
 	WaterFrameBuffers fbos = new WaterFrameBuffers();
 	WaterShader waterShader = new WaterShader();
-	WaterRenderer waterRenderer = new WaterRenderer(waterShader, MasterRenderer.INSTANCE.getProjectionMatrix(), fbos);
+	WaterRenderer waterRenderer = new WaterRenderer(waterShader, fbos);
 
 	public World(int id)
 	{
 		this.worldID = id;
+		waterShader.loadProjectionMatrix(MasterRenderer.INSTANCE.getProjectionMatrix());
 	}
 	
 	public int getWorldD()

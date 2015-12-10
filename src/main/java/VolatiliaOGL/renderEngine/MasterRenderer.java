@@ -61,9 +61,9 @@ public class MasterRenderer
 		shader.loadViewMatrix(camera);
 		renderer.render(entities);
 		shader.stop();
-		
+
 		normalMapRenderer.render(this.normalMapEntities, clipPlane, lights, camera);
-		
+
 		terrainShader.start();
 		terrainShader.loadSkyColor(SKYRED, SKYGREEN, SKYBLUE);
 		terrainShader.loadLights(lights);
@@ -165,7 +165,7 @@ public class MasterRenderer
 		projectionMatrix.m23 = -1;
 		projectionMatrix.m32 = -((2 * farPlane * nearPlane) / frustum_length);
 		projectionMatrix.m33 = 0;
-		
+
 		renderer.updateProjectionMatrix(projectionMatrix);
 		terainRenderer.updateProjectionMatrix(projectionMatrix);
 		skyboxRenderer.updateProjectionMatrix(projectionMatrix);
