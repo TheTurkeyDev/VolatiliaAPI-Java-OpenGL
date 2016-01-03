@@ -15,7 +15,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-	public static final String VERSION = "Indev 1.1.1";
+	public static final String VERSION = "Indev 1.2.1";
 	public static VolatiliaAPI instance;
 
 	private static long lastFrameTime;
@@ -23,7 +23,7 @@ public class VolatiliaAPI
 
 	public static void createDisplay()
 	{
-		ContextAttribs attribs = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
+		ContextAttribs attribs = new ContextAttribs(3, 3).withForwardCompatible(true).withProfileCore(true);
 		try
 		{
 			Display.setDisplayMode(new DisplayMode(VideoSettings.WIDTH, VideoSettings.HEIGHT));
