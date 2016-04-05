@@ -47,7 +47,7 @@ public class MasterRenderer
 		terainRenderer = new TerrainRenderer(terrainShader);
 		skyboxRenderer = new SkyboxRenderer();
 		normalMapRenderer = new NormalMappingRenderer();
-		this.createProjectionMatrix(VideoSettings.getFOV(), VideoSettings.getFarPlane(), VideoSettings.getNearPlane());
+		this.createProjectionMatrix();
 	}
 
 	public void render(List<Light> lights, Camera camera, Vector4f clipPlane)
@@ -151,19 +151,19 @@ public class MasterRenderer
 		this.normalMapRenderer.cleanUp();
 	}
 
-	public void createProjectionMatrix(float fov, float farPlane, float nearPlane)
+	public void createProjectionMatrix()
 	{
 		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-		float y_scale = (float) ((1f / Math.tan(Math.toRadians(fov / 2f))) * aspectRatio);
+		float y_scale = (float) ((1f / Math.tan(Math.toRadians(VideoSettings.getFOV() / 2f))) * aspectRatio);
 		float x_scale = y_scale / aspectRatio;
-		float frustum_length = farPlane - nearPlane;
+		float frustum_length = VideoSettings.getFarPlane() - VideoSettings.getNearPlane();
 
 		projectionMatrix = new Matrix4f();
 		projectionMatrix.m00 = x_scale;
 		projectionMatrix.m11 = y_scale;
-		projectionMatrix.m22 = -((farPlane + nearPlane) / frustum_length);
+		projectionMatrix.m22 = -((VideoSettings.getFarPlane() + VideoSettings.getNearPlane()) / frustum_length);
 		projectionMatrix.m23 = -1;
-		projectionMatrix.m32 = -((2 * farPlane * nearPlane) / frustum_length);
+		projectionMatrix.m32 = -((2 * VideoSettings.getFarPlane() * VideoSettings.getNearPlane()) / frustum_length);
 		projectionMatrix.m33 = 0;
 
 		renderer.updateProjectionMatrix(projectionMatrix);

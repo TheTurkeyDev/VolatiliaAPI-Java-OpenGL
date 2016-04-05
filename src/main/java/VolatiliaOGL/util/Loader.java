@@ -13,13 +13,16 @@ import main.java.VolatiliaOGL.models.RawModel;
 import main.java.VolatiliaOGL.textures.TextureData;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL33;
+import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.opengl.PNGDecoder;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -41,7 +44,7 @@ public class Loader
 		this.unbindVAO();
 		return new RawModel(vaoID, indices.length);
 	}
-	
+
 	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, float[] tangents, int[] indices)
 	{
 		int vaoID = this.createVAO();
@@ -53,7 +56,7 @@ public class Loader
 		this.unbindVAO();
 		return new RawModel(vaoID, indices.length);
 	}
-	
+
 	public int loadToVAO(float[] positions, float[] textureCoords)
 	{
 		int vaoID = this.createVAO();
@@ -70,7 +73,7 @@ public class Loader
 		this.unbindVAO();
 		return new RawModel(vaoID, positions.length / dimensions);
 	}
-	
+
 	public int createEmptyVbo(int floatCount)
 	{
 		int vbo = GL15.glGenBuffers();
@@ -80,8 +83,8 @@ public class Loader
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		return vbo;
 	}
-	
-	public void addInstancedAttribute(int vao ,int vbo, int attribute, int dataSize, int instancedDataLength, int offset)
+
+	public void addInstancedAttribute(int vao, int vbo, int attribute, int dataSize, int instancedDataLength, int offset)
 	{
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
 		GL30.glBindVertexArray(vao);
@@ -90,7 +93,7 @@ public class Loader
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		GL30.glBindVertexArray(0);
 	}
-	
+
 	public void updateVbo(int vbo, float[] data, FloatBuffer buffer)
 	{
 		buffer.clear();
@@ -110,6 +113,16 @@ public class Loader
 			texture = TextureLoader.getTexture("PNG", new FileInputStream("res/" + fileName + ".png"));
 			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, 0);
+			if(GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic)
+			{
+				float amount = Math.min(4f, GL11.glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
+				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, amount);
+			}
+			else
+			{
+				System.out.println("Anisotropic not supported!");
+			}
 		} catch(FileNotFoundException e)
 		{
 			e.printStackTrace();

@@ -7,8 +7,8 @@ import org.lwjgl.util.vector.Matrix4f;
 public class ParticleShader extends BaseShader
 {
 
-	private static final String VERTEX_FILE = "src/main/java/VolatiliaOGL/shaders/particle/particleVertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/shaders/particleFragmentShader.txt";
+	private static final String VERTEX_FILE = "/main/java/VolatiliaOGL/shaders/particle/particleVertexShader.txt";
+	private static final String FRAGMENT_FILE = "/main/java/VolatiliaOGL/shaders/particleFragmentShader.txt";
 
 	private int locationNumberOfRows;
 	private int locationProjectionMatrix;

@@ -1,19 +1,16 @@
 package main.java.VolatiliaOGL.terrains;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import main.java.VolatiliaOGL.models.RawModel;
+import main.java.VolatiliaOGL.terrains.generation.perlinGeneration.HeightsGenerator;
 import main.java.VolatiliaOGL.textures.TerrainTexture;
 import main.java.VolatiliaOGL.textures.TerrainTexturePack;
 import main.java.VolatiliaOGL.util.Loader;
 import main.java.VolatiliaOGL.util.MathUtil;
-
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 public class Terrain
 {
@@ -40,17 +37,8 @@ public class Terrain
 
 	private RawModel generateTerrain(String heightMap)
 	{
-
-		BufferedImage image = null;
-		try
-		{
-			image = ImageIO.read(new File("res/" + heightMap + ".png"));
-		} catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		int vertexCount = image.getHeight();
+		HeightsGenerator generator = new HeightsGenerator();
+		int vertexCount = 128;
 		heights = new float[vertexCount][vertexCount];
 		int count = vertexCount * vertexCount;
 		float[] vertices = new float[count * 3];
@@ -63,11 +51,11 @@ public class Terrain
 			for(int j = 0; j < vertexCount; j++)
 			{
 				vertices[vertexPointer * 3] = (float) j / ((float) vertexCount - 1) * SIZE;
-				float height = this.getHeight(j, i, image);
+				float height = this.getHeight(j, i, generator);
 				heights[j][i] = height;
 				vertices[vertexPointer * 3 + 1] = height;
 				vertices[vertexPointer * 3 + 2] = (float) i / ((float) vertexCount - 1) * SIZE;
-				Vector3f normal = this.calculateNormal(i, j, image);
+				Vector3f normal = this.calculateNormal(i, j, generator);
 				normals[vertexPointer * 3] = normal.x;
 				normals[vertexPointer * 3 + 1] = normal.y;
 				normals[vertexPointer * 3 + 2] = normal.z;
@@ -96,6 +84,18 @@ public class Terrain
 		return Loader.INSTANCE.loadToVAO(vertices, textureCoords, normals, indices);
 	}
 
+	private Vector3f calculateNormal(int x, int z, HeightsGenerator generator)
+	{
+		float heightL = this.getHeight(x - 1, z, generator);
+		float heightR = this.getHeight(x + 1, z, generator);
+		float heightD = this.getHeight(x, z - 1, generator);
+		float heightU = this.getHeight(x, z + 1, generator);
+		Vector3f normal = new Vector3f(heightL - heightR, 2f, heightD - heightU);
+		normal.normalise();
+		return normal;
+
+	}
+
 	private Vector3f calculateNormal(int x, int z, BufferedImage image)
 	{
 		float heightL = this.getHeight(x - 1, z, image);
@@ -106,6 +106,11 @@ public class Terrain
 		normal.normalise();
 		return normal;
 
+	}
+
+	private float getHeight(int x, int z, HeightsGenerator generator)
+	{
+		return generator.generateHeight(x, z);
 	}
 
 	private float getHeight(int x, int y, BufferedImage image)
@@ -151,7 +156,7 @@ public class Terrain
 	{
 		return z;
 	}
-	
+
 	public float getGridX()
 	{
 		return x / SIZE;

@@ -14,7 +14,7 @@ public class VideoSettings
 	public static void setFOV(float fov)
 	{
 		FOV = fov;
-		MasterRenderer.INSTANCE.createProjectionMatrix(FOV, FAR_PLANE, NEAR_PLANE);
+		MasterRenderer.INSTANCE.createProjectionMatrix();
 	}
 	public static float getFOV()
 	{
@@ -24,7 +24,7 @@ public class VideoSettings
 	public static void setFarPlane(float farPlane)
 	{
 		FAR_PLANE = farPlane;
-		MasterRenderer.INSTANCE.createProjectionMatrix(FOV, FAR_PLANE, NEAR_PLANE);
+		MasterRenderer.INSTANCE.createProjectionMatrix();
 	}
 	public static float getFarPlane()
 	{
@@ -34,7 +34,7 @@ public class VideoSettings
 	public static void setNearPlane(float nearPlane)
 	{
 		NEAR_PLANE = nearPlane;
-		MasterRenderer.INSTANCE.createProjectionMatrix(FOV, NEAR_PLANE, FAR_PLANE);
+		MasterRenderer.INSTANCE.createProjectionMatrix();
 	}
 	public static float getNearPlane()
 	{

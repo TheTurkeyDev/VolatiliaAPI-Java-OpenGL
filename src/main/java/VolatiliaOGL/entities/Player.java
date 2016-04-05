@@ -1,16 +1,14 @@
 package main.java.VolatiliaOGL.entities;
 
-import main.java.VolatiliaOGL.VolatiliaAPI;
-import main.java.VolatiliaOGL.models.TexturedModel;
-import main.java.VolatiliaOGL.settings.VideoSettings;
-import main.java.VolatiliaOGL.terrains.Terrain;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
+import main.java.VolatiliaOGL.VolatiliaAPI;
+import main.java.VolatiliaOGL.models.TexturedModel;
+import main.java.VolatiliaOGL.terrains.Terrain;
+
 public class Player extends Entity
 {
-
 	private static final float RUN_SPEED = 20;
 	private static final float TURN_SPEED = 160;
 	public static final float GRAVITY = -50;
@@ -37,9 +35,7 @@ public class Player extends Entity
 		super.increasePosition(xinc, 0, zinc);
 		this.upwardsSpeed += GRAVITY * VolatiliaAPI.getFrameTimeSeconds();
 		super.increasePosition(0, this.upwardsSpeed * VolatiliaAPI.getFrameTimeSeconds(), 0);
-		float terrainHeight = 0;
-		if(terrain != null)
-			terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+		float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
 		if(super.getPosition().y < terrainHeight)
 		{
 			upwardsSpeed = 0;
@@ -89,17 +85,5 @@ public class Player extends Entity
 		{
 			this.jump();
 		}
-
-		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
-		{
-			if(VideoSettings.getFOV() != 30)
-				VideoSettings.setFOV(30);
-		}
-		else
-		{
-			if(VideoSettings.getFOV() != 70)
-				VideoSettings.setFOV(70);
-		}
 	}
-
 }

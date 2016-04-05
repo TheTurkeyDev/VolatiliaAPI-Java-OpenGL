@@ -15,7 +15,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-	public static final String VERSION = "Indev 1.2.1";
+	public static final String VERSION = "Indev 1.2.2";
 	public static VolatiliaAPI instance;
 
 	private static long lastFrameTime;
@@ -27,7 +27,7 @@ public class VolatiliaAPI
 		try
 		{
 			Display.setDisplayMode(new DisplayMode(VideoSettings.WIDTH, VideoSettings.HEIGHT));
-			Display.create(new PixelFormat(), attribs);
+			Display.create(new PixelFormat().withSamples(4).withDepthBits(24), attribs);
 			Display.setTitle("TEST API - Version: " + VolatiliaAPI.VERSION);
 			Display.setResizable(true);
 		} catch(LWJGLException e)

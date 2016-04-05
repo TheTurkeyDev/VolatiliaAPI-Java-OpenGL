@@ -8,15 +8,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.VolatiliaOGL.models.RawModel;
-import main.java.VolatiliaOGL.util.Loader;
-
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import main.java.VolatiliaOGL.models.RawModel;
+import main.java.VolatiliaOGL.util.Loader;
+
 public class NormalMappedObjLoader
 {
-
 	private static final String RES_LOC = "res/";
 
 	public static RawModel loadOBJ(String objFileName)
@@ -88,7 +87,7 @@ public class NormalMappedObjLoader
 		float[] texturesArray = new float[vertices.size() * 2];
 		float[] normalsArray = new float[vertices.size() * 3];
 		float[] tangentsArray = new float[vertices.size() * 3];
-		float furthest = convertDataToArrays(vertices, textures, normals, verticesArray, texturesArray, normalsArray, tangentsArray);
+		/* float furthest = */ convertDataToArrays(vertices, textures, normals, verticesArray, texturesArray, normalsArray, tangentsArray);
 		int[] indicesArray = convertIndicesListToArray(indices);
 
 		return Loader.INSTANCE.loadToVAO(verticesArray, texturesArray, normalsArray, tangentsArray, indicesArray);
@@ -213,5 +212,4 @@ public class NormalMappedObjLoader
 			}
 		}
 	}
-
 }

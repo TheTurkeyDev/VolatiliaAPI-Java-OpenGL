@@ -7,8 +7,8 @@ import org.lwjgl.util.vector.Matrix4f;
 public class GuiShader extends BaseShader
 {
 
-	private static final String VERTEX_FILE = "src/main/java/VolatiliaOGL/shaders/gui/guiVertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/shaders/gui/guiFragmentShader.txt";
+	private static final String VERTEX_FILE = "/main/java/VolatiliaOGL/shaders/gui/guiVertexShader.txt";
+	private static final String FRAGMENT_FILE = "/main/java/VolatiliaOGL/shaders/gui/guiFragmentShader.txt";
 
 	private int location_transformationMatrix;
 
