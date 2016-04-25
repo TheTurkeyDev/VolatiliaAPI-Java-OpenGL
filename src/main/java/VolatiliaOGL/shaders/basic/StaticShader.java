@@ -16,8 +16,8 @@ public class StaticShader extends BaseShader
 {
 	private static final int MAX_LIGHTS = 4;
 
-	private static final String VERTEX_FILE = "src/main/java/VolatiliaOGL/shaders/basic/vertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/shaders/basic/fragmentShader.txt";
+	private static final String VERTEX_FILE = "/main/java/VolatiliaOGL/shaders/basic/vertexShader.txt";
+	private static final String FRAGMENT_FILE = "/main/java/VolatiliaOGL/shaders/basic/fragmentShader.txt";
 
 	private int locationTransformationMatrix;
 	private int locationProjectionMatrix;

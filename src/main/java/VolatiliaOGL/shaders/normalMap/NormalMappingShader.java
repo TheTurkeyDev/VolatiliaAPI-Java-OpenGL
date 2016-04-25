@@ -15,8 +15,8 @@ public class NormalMappingShader extends BaseShader
 
 	private static final int MAX_LIGHTS = 4;
 
-	private static final String VERTEX_FILE = "src/main/java/VolatiliaOGL/shaders/normalMap/normalMapVShader.txt";
-	private static final String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/shaders/normalMap/normalMapFShader.txt";
+	private static final String VERTEX_FILE = "/main/java/VolatiliaOGL/shaders/normalMap/normalMapVShader.txt";
+	private static final String FRAGMENT_FILE = "/main/java/VolatiliaOGL/shaders/normalMap/normalMapFShader.txt";
 
 	private int locationTransformationMatrix;
 	private int locationProjectionMatrix;

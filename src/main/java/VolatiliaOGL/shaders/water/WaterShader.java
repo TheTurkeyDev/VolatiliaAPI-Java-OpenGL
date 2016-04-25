@@ -11,8 +11,8 @@ import org.lwjgl.util.vector.Vector3f;
 public class WaterShader extends BaseShader
 {
 
-	private final static String VERTEX_FILE = "src/main/java/VolatiliaOGL/shaders/water/waterVertex.txt";
-	private final static String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/shaders/water/waterFragment.txt";
+	private final static String VERTEX_FILE = "/main/java/VolatiliaOGL/shaders/water/waterVertex.txt";
+	private final static String FRAGMENT_FILE = "/main/java/VolatiliaOGL/shaders/water/waterFragment.txt";
 
 	private int locationModelMatrix;
 	private int locationViewMatrix;

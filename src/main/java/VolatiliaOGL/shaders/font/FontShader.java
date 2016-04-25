@@ -8,8 +8,8 @@ import org.lwjgl.util.vector.Vector3f;
 public class FontShader extends BaseShader
 {
 
-	private static final String VERTEX_FILE = "src/main/java/VolatiliaOGL/shaders/font/fontVertex.txt";
-	private static final String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/shaders/font/fontFragment.txt";
+	private static final String VERTEX_FILE = "/main/java/VolatiliaOGL/shaders/font/fontVertex.txt";
+	private static final String FRAGMENT_FILE = "/main/java/VolatiliaOGL/shaders/font/fontFragment.txt";
 
 	private int locationColor;
 	private int locationTranslation;

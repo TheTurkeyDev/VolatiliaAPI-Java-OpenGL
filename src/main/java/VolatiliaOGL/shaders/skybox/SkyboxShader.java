@@ -11,8 +11,8 @@ import org.lwjgl.util.vector.Vector3f;
 public class SkyboxShader extends BaseShader
 {
 
-	private static final String VERTEX_FILE = "src/main/java/VolatiliaOGL/shaders/skybox/skyboxVertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/main/java/VolatiliaOGL/shaders/skybox/skyboxFragmentShader.txt";
+	private static final String VERTEX_FILE = "/main/java/VolatiliaOGL/shaders/skybox/skyboxVertexShader.txt";
+	private static final String FRAGMENT_FILE = "/main/java/VolatiliaOGL/shaders/skybox/skyboxFragmentShader.txt";
 
 	private static final float ROTATE_SPEED = 1f;
 
