@@ -6,9 +6,11 @@ import java.io.File;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import main.java.VolatiliaOGL.gui.GuiComponent;
 import main.java.VolatiliaOGL.gui.text.FontType;
 import main.java.VolatiliaOGL.gui.text.GuiText;
 import main.java.VolatiliaOGL.screen.Screen;
+import main.java.VolatiliaOGL.textures.ModelTexture;
 import main.java.VolatiliaOGL.util.Loader;
 
 public class TestScreen extends Screen
@@ -24,6 +26,8 @@ public class TestScreen extends Screen
 		super("Test Screen");
 		text.setColor(0, 0, 0);
 		super.addText(text);
+		ModelTexture texture = new ModelTexture(Loader.INSTANCE.loadTexture("textures/gui/health"));
+		super.addGuiComponent(new GuiComponent(this, "test", texture.getID(), new Vector2f(0.25f, 0.25f), new Vector2f(0.25f, 0.25f)));
 
 	}
 

@@ -8,6 +8,7 @@ import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
 import main.java.VolatiliaOGL.entities.Player;
 import main.java.VolatiliaOGL.game.World;
+import main.java.VolatiliaOGL.gui.GuiComponent;
 import main.java.VolatiliaOGL.gui.text.FontType;
 import main.java.VolatiliaOGL.gui.text.GuiText;
 import main.java.VolatiliaOGL.models.TexturedModel;
@@ -42,6 +43,8 @@ public class Game
 	{
 		this.screen = screen;
 		this.screen.addText(text);
+		ModelTexture texture = new ModelTexture(Loader.INSTANCE.loadTexture("textures/gui/health"));
+		this.screen.addGuiComponent(new GuiComponent(screen, "test", texture.getID(), new Vector2f(0.5f,0.5f), new Vector2f(0.35f,0.25f)));
 	}
 
 	public void loadGame()
