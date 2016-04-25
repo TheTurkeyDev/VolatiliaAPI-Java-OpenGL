@@ -15,7 +15,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-	public static final String VERSION = "Indev 1.2.2";
+	public static final String VERSION = "Indev 1.2.3";
 	public static VolatiliaAPI instance;
 
 	private static long lastFrameTime;
@@ -34,7 +34,7 @@ public class VolatiliaAPI
 		{
 			e.printStackTrace();
 		}
-
+		
 		GL11.glViewport(0, 0, VideoSettings.WIDTH, VideoSettings.HEIGHT);
 		lastFrameTime = getCurrentTime();
 	}

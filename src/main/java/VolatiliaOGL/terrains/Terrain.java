@@ -93,7 +93,6 @@ public class Terrain
 		Vector3f normal = new Vector3f(heightL - heightR, 2f, heightD - heightU);
 		normal.normalise();
 		return normal;
-
 	}
 
 	private Vector3f calculateNormal(int x, int z, BufferedImage image)
