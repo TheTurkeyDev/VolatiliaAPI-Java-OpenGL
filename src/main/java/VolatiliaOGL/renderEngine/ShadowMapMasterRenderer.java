@@ -12,9 +12,9 @@ import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
 import main.java.VolatiliaOGL.models.TexturedModel;
+import main.java.VolatiliaOGL.postProcessing.Fbo;
 import main.java.VolatiliaOGL.shaders.shadows.ShadowShader;
 import main.java.VolatiliaOGL.shadows.ShadowBox;
-import main.java.VolatiliaOGL.shadows.ShadowFrameBuffer;
 
 /**
  * This class is in charge of using all of the classes in the shadows package to carry out the shadow render pass, i.e. rendering the scene to the shadow map texture. This is the only class in the shadows package which needs to be referenced from outside the shadows package.
@@ -26,7 +26,7 @@ public class ShadowMapMasterRenderer
 
 	private static final int SHADOW_MAP_SIZE = 2048;
 
-	private ShadowFrameBuffer shadowFbo;
+	private Fbo shadowFbo;
 	private ShadowShader shader;
 	private ShadowBox shadowBox;
 	private Matrix4f projectionMatrix = new Matrix4f();
@@ -46,7 +46,7 @@ public class ShadowMapMasterRenderer
 	{
 		shader = new ShadowShader();
 		shadowBox = new ShadowBox(lightViewMatrix, camera);
-		shadowFbo = new ShadowFrameBuffer(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE);
+		shadowFbo = new Fbo(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, Fbo.DEPTH_RENDER_BUFFER);
 		entityRenderer = new ShadowMapEntityRenderer(shader, projectionViewMatrix);
 	}
 
@@ -92,7 +92,7 @@ public class ShadowMapMasterRenderer
 	 */
 	public int getShadowMap()
 	{
-		return shadowFbo.getShadowMap();
+		return shadowFbo.getDepthTexture();
 	}
 
 	/**
