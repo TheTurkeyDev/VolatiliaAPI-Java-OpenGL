@@ -5,8 +5,8 @@ import main.java.VolatiliaOGL.shaders.BaseShader;
 public class PostProcessingShader extends BaseShader
 {
 
-	private static final String VERTEX_FILE = "/shaders/postProcessing/postProcessingVertex.txt";
-	private static final String FRAGMENT_FILE = "/shaders/postProcessing/postProcessingFragment.txt";
+	private static final String VERTEX_FILE = "/main/java/VolatiliaOGL/shaders/postProcessing/postProcessingVertex.txt";
+	private static final String FRAGMENT_FILE = "/main/java/VolatiliaOGL/shaders/postProcessing/postProcessingFragment.txt";
 
 	public PostProcessingShader()
 	{

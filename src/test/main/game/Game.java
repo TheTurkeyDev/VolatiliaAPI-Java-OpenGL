@@ -3,6 +3,9 @@ package test.main.game;
 import java.awt.Color;
 import java.io.File;
 
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
+
 import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
@@ -21,9 +24,6 @@ import main.java.VolatiliaOGL.textures.ModelTexture;
 import main.java.VolatiliaOGL.textures.TerrainTexture;
 import main.java.VolatiliaOGL.textures.TerrainTexturePack;
 import main.java.VolatiliaOGL.util.Loader;
-
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 public class Game
 {
@@ -69,8 +69,8 @@ public class Game
 		world.addTerrain(new Terrain(0, 0, texturePack, blendMap, "textures/terrain/heightMap"));
 		world.addTerrain(new Terrain(0, -1, texturePack, blendMap, "textures/terrain/heightMap"));
 		world.addWater(new WaterTile(75, 80, -2));
-		world.addWater(new WaterTile(195, 80, -2));
-		world.addWater(new WaterTile(125, 200, -2));
+		world.addWater(new WaterTile(195, 80, 5));
+		world.addWater(new WaterTile(125, 200, 1));
 		world.addEntityToWorld(new Entity(dragon, new Vector3f(50, 0, -50), 0, 0, 0, 1));
 		world.addEntityToWorld(player);
 		world.addNormalEntityToWorld(new Entity(barrel, new Vector3f(75, 10, -75), 0, 0, 0, 1f));

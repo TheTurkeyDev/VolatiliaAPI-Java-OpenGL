@@ -6,6 +6,8 @@ import java.util.List;
 import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
+import main.java.VolatiliaOGL.postProcessing.Fbo;
+import main.java.VolatiliaOGL.postProcessing.PostProcessing;
 import main.java.VolatiliaOGL.renderEngine.MasterRenderer;
 import main.java.VolatiliaOGL.renderEngine.WaterRenderer;
 import main.java.VolatiliaOGL.shaders.water.WaterShader;
@@ -13,6 +15,7 @@ import main.java.VolatiliaOGL.terrains.Terrain;
 import main.java.VolatiliaOGL.terrains.WaterFrameBuffers;
 import main.java.VolatiliaOGL.terrains.WaterTile;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
@@ -35,6 +38,8 @@ public class World
 	WaterFrameBuffers fbos = new WaterFrameBuffers();
 	WaterShader waterShader = new WaterShader();
 	WaterRenderer waterRenderer = new WaterRenderer(waterShader, fbos);
+	
+	Fbo postProcess = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_RENDER_BUFFER);
 
 	public World(int id)
 	{
@@ -65,9 +70,11 @@ public class World
 		GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 		fbos.unbindCurrentFrameBuffer();
 		
+		postProcess.bindFrameBuffer();;
 		MasterRenderer.INSTANCE.renderScene(entities, normalEntities, terrains, this.getNearestNLights(camera.getPosition(), 4, true), camera, new Vector4f(0, -1, 0, 100000));
-		
 		waterRenderer.render(waters, camera, sun);
+		postProcess.unbindFrameBuffer();
+		PostProcessing.doPostProcessing(postProcess.getColourTexture());
 	}
 	
 	public void addNormalEntityToWorld(Entity ent)
@@ -208,5 +215,7 @@ public class World
 	{
 		waterShader.cleanUp();
 		fbos.cleanUp();
+		postProcess.cleanUp();
+		PostProcessing.cleanUp();
 	}
 }
