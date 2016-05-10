@@ -15,7 +15,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
 {
-	public static final String VERSION = "Indev 1.2.3";
+	public static final String VERSION = "Indev 1.2.4";
 	public static VolatiliaAPI instance;
 
 	private static long lastFrameTime;

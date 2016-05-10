@@ -17,6 +17,7 @@ import main.java.VolatiliaOGL.gui.text.GuiText;
 import main.java.VolatiliaOGL.models.TexturedModel;
 import main.java.VolatiliaOGL.objLoading.NormalMappedObjLoader;
 import main.java.VolatiliaOGL.objLoading.OBJLoader;
+import main.java.VolatiliaOGL.postProcessing.PostProcessing;
 import main.java.VolatiliaOGL.screen.Screen;
 import main.java.VolatiliaOGL.terrains.Terrain;
 import main.java.VolatiliaOGL.terrains.WaterTile;
@@ -75,6 +76,8 @@ public class Game
 		world.addEntityToWorld(player);
 		world.addNormalEntityToWorld(new Entity(barrel, new Vector3f(75, 10, -75), 0, 0, 0, 1f));
 		world.setSun(new Light(new Vector3f(0, 1000, -7000), new Vector3f(1f, 1f, 1f)));
+	
+		PostProcessing.changeContrast(true);
 	}
 	
 	public void render()

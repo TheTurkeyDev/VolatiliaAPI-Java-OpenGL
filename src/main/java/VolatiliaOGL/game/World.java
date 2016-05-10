@@ -3,6 +3,12 @@ package main.java.VolatiliaOGL.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
+
 import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
@@ -14,12 +20,6 @@ import main.java.VolatiliaOGL.shaders.water.WaterShader;
 import main.java.VolatiliaOGL.terrains.Terrain;
 import main.java.VolatiliaOGL.terrains.WaterFrameBuffers;
 import main.java.VolatiliaOGL.terrains.WaterTile;
-
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
 
 public class World
 {
@@ -34,11 +34,11 @@ public class World
 	private List<WaterTile> waters = new ArrayList<WaterTile>();
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> normalEntities = new ArrayList<Entity>();
-	
+
 	WaterFrameBuffers fbos = new WaterFrameBuffers();
 	WaterShader waterShader = new WaterShader();
 	WaterRenderer waterRenderer = new WaterRenderer(waterShader, fbos);
-	
+
 	Fbo postProcess = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_RENDER_BUFFER);
 
 	public World(int id)
@@ -46,12 +46,12 @@ public class World
 		this.worldID = id;
 		waterShader.loadProjectionMatrix(MasterRenderer.INSTANCE.getProjectionMatrix());
 	}
-	
+
 	public int getWorldD()
 	{
 		return this.worldID;
 	}
-	
+
 	public void renderWorld(Camera camera)
 	{
 		GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
@@ -60,38 +60,59 @@ public class World
 		float distance = 2 * (camera.getPosition().y - waters.get(0).getHeight());
 		camera.getPosition().y -= distance;
 		camera.invertPitch();
-		MasterRenderer.INSTANCE.renderScene(entities, normalEntities, terrains, this.getNearestNLights(camera.getPosition(), 4, true), camera, new Vector4f(0, 1, 0, - waters.get(0).getHeight() + 1f));
+		MasterRenderer.INSTANCE.renderScene(entities, normalEntities, terrains, this.getNearestNLights(camera.getPosition(), 4, true), camera, new Vector4f(0, 1, 0, -waters.get(0).getHeight() + 1f));
 		camera.getPosition().y += distance;
 		camera.invertPitch();
 
 		fbos.bindRefractionFrameBuffer();
-		MasterRenderer.INSTANCE.renderScene(entities, normalEntities, terrains, this.getNearestNLights(camera.getPosition(), 4, true), camera, new Vector4f(0, -1, 0,  waters.get(0).getHeight()));
+		MasterRenderer.INSTANCE.renderScene(entities, normalEntities, terrains, this.getNearestNLights(camera.getPosition(), 4, true), camera, new Vector4f(0, -1, 0, waters.get(0).getHeight()));
 
 		GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 		fbos.unbindCurrentFrameBuffer();
-		
-		postProcess.bindFrameBuffer();;
+
+		postProcess.bindFrameBuffer();
+
 		MasterRenderer.INSTANCE.renderScene(entities, normalEntities, terrains, this.getNearestNLights(camera.getPosition(), 4, true), camera, new Vector4f(0, -1, 0, 100000));
 		waterRenderer.render(waters, camera, sun);
 		postProcess.unbindFrameBuffer();
+
+		boolean under = false;
+		for(WaterTile water : waters)
+		{
+			if(water.getHeight() > camera.getPosition().y)
+			{
+				// Note: if either dimension is zero, tests below must return false...
+				float x = water.getX() - 60;
+				float z = water.getZ() - 60;
+				float cx = camera.getPosition().x;
+				float cz = camera.getPosition().z;
+				if(cx < x || cz < z || under)
+					continue;
+
+				// overflow || intersect
+				under = ((x + 120 < x || x + 120 > cx) && (z + 120 < z || z + 120 > cz));
+			}
+		}
+		PostProcessing.changeColor(under);
+		PostProcessing.useWaterEffect(under);
 		PostProcessing.doPostProcessing(postProcess.getColourTexture());
 	}
-	
+
 	public void addNormalEntityToWorld(Entity ent)
 	{
 		this.normalEntities.add(ent);
 	}
-	
+
 	public void removeNormalEntityFromWorld(Entity ent)
 	{
 		this.normalEntities.remove(ent);
 	}
-	
+
 	public void addEntityToWorld(Entity ent)
 	{
 		this.entities.add(ent);
 	}
-	
+
 	public void removeEntityFromWorld(Entity ent)
 	{
 		this.entities.remove(ent);
@@ -111,7 +132,7 @@ public class World
 	{
 		return this.getNearestNLights(position.x, position.y, position.z, numberOfLights, sun);
 	}
-	
+
 	public List<Light> getNearestNLights(float x, float y, float z, int numberOfLights, boolean sun)
 	{
 		Vector3f source = new Vector3f(x, y, z);
@@ -200,12 +221,12 @@ public class World
 				return terrain;
 		return null;
 	}
-	
+
 	public void addWater(WaterTile water)
 	{
 		this.waters.add(water);
 	}
-	
+
 	public void removeWater(WaterTile water)
 	{
 		this.waters.remove(water);

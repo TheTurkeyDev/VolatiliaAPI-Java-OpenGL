@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import main.java.VolatiliaOGL.VolatiliaAPI;
 import main.java.VolatiliaOGL.models.TexturedModel;
+import main.java.VolatiliaOGL.postProcessing.PostProcessing;
 import main.java.VolatiliaOGL.terrains.Terrain;
 
 public class Player extends Entity
@@ -20,6 +21,13 @@ public class Player extends Entity
 
 	private boolean isInAir = false;
 
+	private int delay = 0;
+	
+	private boolean useChangeContrast = false;
+	private boolean useChangeColor = false;
+	private boolean useGrayScale = false;
+	private boolean usewaterEffect = false;
+	
 	public Player(TexturedModel model, Vector3f positon, float rotX, float rotY, float rotZ, float scale)
 	{
 		super(model, positon, rotX, rotY, rotZ, scale);
@@ -55,6 +63,8 @@ public class Player extends Entity
 
 	private void checkInputs()
 	{
+		delay = delay > 0 ? delay - 1 : 0;
+		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W))
 		{
 			this.currentSpeed = RUN_SPEED;
@@ -84,6 +94,33 @@ public class Player extends Entity
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE))
 		{
 			this.jump();
+		}
+		
+		
+		//TESTING POSTRENDERING EFFECTS
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD1) && delay == 0)
+		{
+			PostProcessing.changeContrast(this.useChangeContrast);
+			useChangeContrast = !useChangeContrast;
+			delay = 10;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2) && delay == 0)
+		{
+			PostProcessing.changeColor(this.useChangeColor);
+			useChangeColor = !useChangeColor;
+			delay = 10;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD3) && delay == 0)
+		{
+			PostProcessing.useGrayScale(useGrayScale);
+			useGrayScale = !useGrayScale;
+			delay = 10;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4) && delay == 0)
+		{
+			PostProcessing.useWaterEffect(usewaterEffect);
+			usewaterEffect = !usewaterEffect;
+			delay = 10;
 		}
 	}
 }
