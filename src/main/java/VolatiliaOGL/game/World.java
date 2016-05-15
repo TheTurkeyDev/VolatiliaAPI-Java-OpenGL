@@ -20,6 +20,7 @@ import main.java.VolatiliaOGL.shaders.water.WaterShader;
 import main.java.VolatiliaOGL.terrains.Terrain;
 import main.java.VolatiliaOGL.terrains.WaterFrameBuffers;
 import main.java.VolatiliaOGL.terrains.WaterTile;
+import test.main.game.Game;
 
 public class World
 {
@@ -93,8 +94,8 @@ public class World
 				under = ((x + 120 < x || x + 120 > cx) && (z + 120 < z || z + 120 > cz));
 			}
 		}
-		PostProcessing.changeColor(under);
-		PostProcessing.useWaterEffect(under);
+		PostProcessing.changeColor(under || Game.player.useChangeColor);
+		PostProcessing.useWaterEffect(under || Game.player.usewaterEffect);
 		PostProcessing.doPostProcessing(postProcess.getColourTexture());
 	}
 

@@ -28,7 +28,7 @@ import main.java.VolatiliaOGL.util.Loader;
 
 public class Game
 {
-	private Player player;
+	public static Player player;
 	private Camera camera;
 
 	private World world = new World(0);

@@ -23,10 +23,10 @@ public class Player extends Entity
 
 	private int delay = 0;
 	
-	private boolean useChangeContrast = false;
-	private boolean useChangeColor = false;
-	private boolean useGrayScale = false;
-	private boolean usewaterEffect = false;
+	public boolean useChangeContrast = false;
+	public boolean useChangeColor = false;
+	public boolean useGrayScale = false;
+	public boolean usewaterEffect = false;
 	
 	public Player(TexturedModel model, Vector3f positon, float rotX, float rotY, float rotZ, float scale)
 	{

@@ -60,8 +60,8 @@ public class PostProcessingShader extends BaseShader
 
 	public void updateOffset()
 	{
-		elptime += 5;
-		float move = (float) (elptime / 1000.0 * 2 * 3.14159 * .75);
+		elptime += 40;
+		float move = (float) (elptime / 1000.0 * 2 * Math.PI * .75);
 		super.loadFloat(this.offset, move);
 
 	}
