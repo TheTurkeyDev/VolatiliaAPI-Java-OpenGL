@@ -1,0 +1,17 @@
+#version 140
+
+in vec2 textureCoords;
+vec2 editedTextureCoords;
+
+out vec4 out_Colour;
+
+uniform sampler2D colourTexture;
+
+uniform float offset;
+
+void main(void)
+{
+	editedTextureCoords = textureCoords;
+	editedTextureCoords.x += sin(textureCoords.y * 4*2*3.14159 + offset) / 100;
+	out_Colour = texture(colourTexture, editedTextureCoords);
+}

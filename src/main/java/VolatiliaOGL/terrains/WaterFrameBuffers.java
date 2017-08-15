@@ -4,7 +4,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
-import main.java.VolatiliaOGL.postProcessing.Fbo;
+import main.java.VolatiliaOGL.util.Fbo;
 
 public class WaterFrameBuffers
 {

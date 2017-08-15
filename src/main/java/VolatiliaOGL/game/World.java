@@ -12,7 +12,6 @@ import org.lwjgl.util.vector.Vector4f;
 import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
-import main.java.VolatiliaOGL.postProcessing.Fbo;
 import main.java.VolatiliaOGL.postProcessing.PostProcessing;
 import main.java.VolatiliaOGL.renderEngine.MasterRenderer;
 import main.java.VolatiliaOGL.renderEngine.WaterRenderer;
@@ -20,6 +19,7 @@ import main.java.VolatiliaOGL.shaders.water.WaterShader;
 import main.java.VolatiliaOGL.terrains.Terrain;
 import main.java.VolatiliaOGL.terrains.WaterFrameBuffers;
 import main.java.VolatiliaOGL.terrains.WaterTile;
+import main.java.VolatiliaOGL.util.Fbo;
 import test.main.game.Game;
 
 public class World
@@ -36,11 +36,12 @@ public class World
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> normalEntities = new ArrayList<Entity>();
 
-	WaterFrameBuffers fbos = new WaterFrameBuffers();
-	WaterShader waterShader = new WaterShader();
-	WaterRenderer waterRenderer = new WaterRenderer(waterShader, fbos);
+	private WaterFrameBuffers fbos = new WaterFrameBuffers();
+	private WaterShader waterShader = new WaterShader();
+	private WaterRenderer waterRenderer = new WaterRenderer(waterShader, fbos);
 
-	Fbo postProcess = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_RENDER_BUFFER);
+	private Fbo postProcess = new Fbo(Display.getWidth(), Display.getHeight());
+	private Fbo outFBO = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_TEXTURE);
 
 	public World(int id)
 	{
@@ -72,11 +73,12 @@ public class World
 		fbos.unbindCurrentFrameBuffer();
 
 		postProcess.bindFrameBuffer();
-
 		MasterRenderer.INSTANCE.renderScene(entities, normalEntities, terrains, this.getNearestNLights(camera.getPosition(), 4, true), camera, new Vector4f(0, -1, 0, 100000));
 		waterRenderer.render(waters, camera, sun);
 		postProcess.unbindFrameBuffer();
 
+		postProcess.resolveToFbo(outFBO);
+		
 		boolean under = false;
 		for(WaterTile water : waters)
 		{
@@ -94,9 +96,10 @@ public class World
 				under = ((x + 120 < x || x + 120 > cx) && (z + 120 < z || z + 120 > cz));
 			}
 		}
-		PostProcessing.changeColor(under || Game.player.useChangeColor);
-		PostProcessing.useWaterEffect(under || Game.player.usewaterEffect);
-		PostProcessing.doPostProcessing(postProcess.getColourTexture());
+		PostProcessing.doColorshift = under || Game.player.useChangeColor;
+		PostProcessing.colorshift.setColorOffsets(0.05f, 0.1f, 0.15f);
+		PostProcessing.dowaterEffectt = under || Game.player.usewaterEffect;
+		PostProcessing.doPostProcessing(outFBO.getColourTexture());
 	}
 
 	public void addNormalEntityToWorld(Entity ent)
@@ -237,6 +240,7 @@ public class World
 	{
 		waterShader.cleanUp();
 		fbos.cleanUp();
+		outFBO.cleanUp();
 		postProcess.cleanUp();
 		PostProcessing.cleanUp();
 	}

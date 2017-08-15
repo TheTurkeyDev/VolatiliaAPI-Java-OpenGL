@@ -12,9 +12,9 @@ import main.java.VolatiliaOGL.entities.Camera;
 import main.java.VolatiliaOGL.entities.Entity;
 import main.java.VolatiliaOGL.entities.Light;
 import main.java.VolatiliaOGL.models.TexturedModel;
-import main.java.VolatiliaOGL.postProcessing.Fbo;
 import main.java.VolatiliaOGL.shaders.shadows.ShadowShader;
 import main.java.VolatiliaOGL.shadows.ShadowBox;
+import main.java.VolatiliaOGL.util.Fbo;
 
 /**
  * This class is in charge of using all of the classes in the shadows package to carry out the shadow render pass, i.e. rendering the scene to the shadow map texture. This is the only class in the shadows package which needs to be referenced from outside the shadows package.

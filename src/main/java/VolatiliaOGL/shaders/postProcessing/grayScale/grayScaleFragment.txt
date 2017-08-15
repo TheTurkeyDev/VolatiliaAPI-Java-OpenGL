@@ -1,0 +1,16 @@
+#version 140
+
+in vec2 textureCoords;
+
+out vec4 out_Colour;
+
+uniform sampler2D colourTexture;
+
+void main(void)
+{
+	out_Colour = texture(colourTexture, textureCoords);
+	float gray = dot(out_Colour.rgb, vec3(0.299, 0.587, 0.114));
+	out_Colour.r = gray;
+	out_Colour.g = gray;
+	out_Colour.b = gray;
+}

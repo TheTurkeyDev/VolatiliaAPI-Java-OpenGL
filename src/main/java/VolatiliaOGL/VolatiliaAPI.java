@@ -11,6 +11,7 @@ import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.PixelFormat;
 
 public class VolatiliaAPI
@@ -30,6 +31,7 @@ public class VolatiliaAPI
 			Display.create(new PixelFormat().withSamples(4).withDepthBits(24), attribs);
 			Display.setTitle("TEST API - Version: " + VolatiliaAPI.VERSION);
 			Display.setResizable(true);
+			GL11.glEnable(GL13.GL_MULTISAMPLE);
 		} catch(LWJGLException e)
 		{
 			e.printStackTrace();

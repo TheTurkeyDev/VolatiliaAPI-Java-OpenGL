@@ -34,6 +34,9 @@ public class StaticShader extends BaseShader
 	private int locationClipPlane;
 	private int locationDensity;
 	private int locationGradient;
+	private int locationSpecularMap;
+	private int locationUsesSpecularMap;
+	private int locationTextureSampler;
 
 	public StaticShader()
 	{
@@ -63,6 +66,9 @@ public class StaticShader extends BaseShader
 		this.locationClipPlane = super.getUniformLocation("plane");
 		this.locationDensity = super.getUniformLocation("density");
 		this.locationGradient = super.getUniformLocation("gradient");
+		this.locationSpecularMap = super.getUniformLocation("specularMap");
+		this.locationUsesSpecularMap = super.getUniformLocation("usesSpecularMap");
+		this.locationTextureSampler = super.getUniformLocation("textureSampler");
 
 		locationLightPosition = new int[MAX_LIGHTS];
 		locationLightColor = new int[MAX_LIGHTS];
@@ -144,5 +150,16 @@ public class StaticShader extends BaseShader
 	{
 		super.loadFloat(this.locationDensity, density);
 		super.loadFloat(this.locationGradient, gradient);
+	}
+	
+	public void connectTextureUnits()
+	{
+		super.loadInt(this.locationTextureSampler, 0);
+		super.loadInt(this.locationSpecularMap, 1);
+	}
+	
+	public void loadUsesSpecularMap(boolean uses)
+	{
+		super.loadBoolean(this.locationUsesSpecularMap, uses);
 	}
 }

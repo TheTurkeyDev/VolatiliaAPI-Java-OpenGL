@@ -2,21 +2,24 @@ package main.java.VolatiliaOGL.postProcessing;
 
 import org.lwjgl.opengl.GL11;
 
+import main.java.VolatiliaOGL.util.Fbo;
+
 public class ImageRenderer
 {
 
 	private Fbo fbo;
 
-	protected ImageRenderer(int width, int height)
+	public ImageRenderer()
+	{
+
+	}
+
+	public ImageRenderer(int width, int height)
 	{
 		this.fbo = new Fbo(width, height, Fbo.NONE);
 	}
 
-	protected ImageRenderer()
-	{
-	}
-
-	protected void renderQuad()
+	public void renderQuad()
 	{
 		if(fbo != null)
 		{
@@ -30,12 +33,12 @@ public class ImageRenderer
 		}
 	}
 
-	protected int getOutputTexture()
+	public int getOutputTexture()
 	{
 		return fbo.getColourTexture();
 	}
 
-	protected void cleanUp()
+	public void cleanUp()
 	{
 		if(fbo != null)
 		{

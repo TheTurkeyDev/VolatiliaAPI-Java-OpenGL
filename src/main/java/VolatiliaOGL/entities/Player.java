@@ -27,6 +27,7 @@ public class Player extends Entity
 	public boolean useChangeColor = false;
 	public boolean useGrayScale = false;
 	public boolean usewaterEffect = false;
+	public boolean useGausBlur = false;
 	
 	public Player(TexturedModel model, Vector3f positon, float rotX, float rotY, float rotZ, float scale)
 	{
@@ -100,26 +101,32 @@ public class Player extends Entity
 		//TESTING POSTRENDERING EFFECTS
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD1) && delay == 0)
 		{
-			PostProcessing.changeContrast(this.useChangeContrast);
+			PostProcessing.doContrastChange = this.useChangeContrast;
 			useChangeContrast = !useChangeContrast;
 			delay = 10;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2) && delay == 0)
 		{
-			PostProcessing.changeColor(this.useChangeColor);
+			PostProcessing.doColorshift = this.useChangeColor;
 			useChangeColor = !useChangeColor;
 			delay = 10;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD3) && delay == 0)
 		{
-			PostProcessing.useGrayScale(useGrayScale);
+			PostProcessing.dograyScale = this.useGrayScale;
 			useGrayScale = !useGrayScale;
 			delay = 10;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4) && delay == 0)
 		{
-			PostProcessing.useWaterEffect(usewaterEffect);
+			PostProcessing.dowaterEffectt = this.usewaterEffect;
 			usewaterEffect = !usewaterEffect;
+			delay = 10;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD5) && delay == 0)
+		{
+			PostProcessing.doGausBlur = this.useGausBlur;
+			useGausBlur = !useGausBlur;
 			delay = 10;
 		}
 	}

@@ -1,0 +1,19 @@
+#version 140
+
+in vec2 textureCoords;
+
+out vec4 out_Colour;
+
+uniform sampler2D colourTexture;
+
+uniform float rChange;
+uniform float gChange;
+uniform float bChange;
+
+void main(void)
+{
+	out_Colour = texture(colourTexture, textureCoords);
+	out_Colour.r += rChange;
+	out_Colour.g += gChange;
+	out_Colour.b += bChange;
+}
